@@ -7,6 +7,7 @@ namespace DotGalacticos.Guns
     {
         [SerializeField] private PlayerWeaponSelector GunSelector; // Silah seçicisi
 
+
         private void Update()
         {
             // Sol fare tuşuna basıldığında saldır
@@ -14,14 +15,13 @@ namespace DotGalacticos.Guns
             {
                 Attack();
             }
+            
         }
 
         private void Attack()
         {
             if (GunSelector.ActiveWeapon != null)
             {
-                // Oyuncunun konumunu al
-                Vector3 attackPosition = transform.position;
                 GunSelector.ActiveWeapon.Attack(); // Silahın Attack metodunu çağır
             }
             else

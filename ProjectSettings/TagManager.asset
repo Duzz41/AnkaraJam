@@ -6,11 +6,13 @@ TagManager:
   tags:
   - SFX
   - Music
+  - CinemachineTarget
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - Outlined
