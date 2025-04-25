@@ -15,7 +15,7 @@ namespace DotGalacticos.Guns.Demo
         private GunType gunType; // Seçilecek silah türü
         [SerializeField]
         private List<MeleeWeaponScriptableObject> Weapons; // Melee silahları listesi
-
+        private int currentWeaponIndex = 0; // Aktif silahın indeksi
 
         [Space]
         [Header("Runtime Filled")]
@@ -42,45 +42,34 @@ namespace DotGalacticos.Guns.Demo
             ActiveWeapon = type.Clone() as MeleeWeaponScriptableObject; // Aktif silahı klonla
             ActiveWeapon.Spawn(GunParent, this); // Silahı sahneye yerleştir
         }
-
-        private MeleeWeaponScriptableObject FindWeaponByType(GunType type)
+        public void DespawnActiveGun()
         {
-            // Silah türüne göre uygun silahı bul
-            foreach (var weapon in Weapons)
+            if (ActiveWeapon != null)
             {
-                if (weapon.Type == type) // gunType özelliği ile karşılaştır
-                {
-                    return weapon;
-                }
+                ActiveWeapon.Despawn();
+                Destroy(ActiveWeapon);
             }
-            return null; // Uygun silah bulunamazsa null döndür
         }
 
-        private void SpawnWeapon()
+        public void SelectWeapon(int diceResult)
         {
-            // Silahı sahneye yerleştir
-            GameObject weaponObject = Instantiate(ActiveWeapon.ModelPrefab, GunParent.position, Quaternion.identity);
-            weaponObject.transform.SetParent(GunParent, false);
-            weaponObject.transform.localPosition = Vector3.zero; // İstenilen pozisyona ayarlayın
-
-            // Burada silahın modelini ve diğer bileşenlerini ekleyebilirsiniz
-            Debug.Log($"{ActiveWeapon.Name} sahneye yerleştirildi!");
+            EquipWeapon(diceResult); // Zar sonucuna göre silahı seç
+        }
+        public void EquipWeapon(int index)
+        {
+            if (index >= 0 && index < Weapons.Count)
+            {
+                DespawnActiveGun();
+                currentWeaponIndex = index;
+                Debug.Log($"Silah değiştirildi: {Weapons[currentWeaponIndex].Name}");
+                SetupWeapon(Weapons[currentWeaponIndex]);
+                // Burada silahı sahneye yerleştirme veya diğer gerekli işlemleri yapabilirsiniz
+            }
+            else
+            {
+                Debug.LogWarning("Geçersiz silah indeksi.");
+            }
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                //SetupWeapon(GunType.Sword); // 1 tuşuna basıldığında kılıcı seç
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                // SetupWeapon(GunType.Axe); // 2 tuşuna basıldığında baltayı seç
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                //SetupWeapon(GunType.Stick); // 3 tuşuna basıldığında sopayı seç
-            }
-        }
     }
 }

@@ -48,7 +48,15 @@ namespace DotGalacticos.Guns
             modelAudioSource = ModelPrefab.GetComponent<AudioSource>();
             weaponAnimator = ModelPrefab.GetComponent<Animator>();
         }
+        public void Despawn()
+        {
 
+            Debug.Log($"Destroying {ModelPrefab.name}");
+            Destroy(ModelPrefab);
+
+            modelAudioSource = null;
+            weaponAnimator = null;
+        }
         public void Attack()
         {
             if (Time.time >= lastAttackTime + AttackCooldown)
