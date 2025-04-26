@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'throw_axe '
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -84,6 +88,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7106311702840496866}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7152832426656570535}
   m_SourcePrefab: {fileID: 100100000, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
 --- !u!1 &6145515958250407883 stripped
 GameObject:
@@ -257,3 +264,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0107624065, y: 0.06416106, z: 0.18710163}
   m_Center: {x: -0.0002527109, y: 0.0016610976, z: 0.087075666}
+--- !u!114 &7152832426656570535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145515958250407883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e74bbff292c7b945b296fc1252d0b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwForce: 25
+  rotationSpeed: 1000
+  lifetime: 5
+  offset: {x: 0, y: 0, z: 1}
+  spawnPoint: {fileID: 0}
+  weaponData: {fileID: 11400000, guid: 46eec45f6c311724a8a323887ae0bbff, type: 2}

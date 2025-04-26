@@ -63,6 +63,12 @@ namespace DotGalacticos.Guns
         }
         public void Attack()
         {
+            // Eğer ilk saldırıysa, lastAttackTime'ı hemen güncelle
+            if (lastAttackTime == 0)
+            {
+                lastAttackTime = Time.time;
+            }
+
             if (Time.time >= lastAttackTime + AttackCooldown)
             {
                 isAttacking = true;
@@ -70,26 +76,23 @@ namespace DotGalacticos.Guns
                 modelAudioSource.PlayOneShot(AttackSound);
                 Debug.Log($"{Name} ile saldırıldı! Hasar: {Damage}");
 
-                if (usageType == GunUseType.Throw)
+                // Melee attack logic
+                if (weaponAnimator != null)
                 {
-                    Throw(ModelPrefab.gameObject.transform);
+                    weaponAnimator.SetTrigger("Attack");
                 }
                 else
                 {
-                    // Melee attack logic
-                    if (weaponAnimator != null)
-                    {
-                        weaponAnimator.SetTrigger("Attack");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Weapon animator is not assigned.");
-                    }
+                    Debug.LogWarning("Weapon animator is not assigned.");
+                }
 
-                    lastAttackTime = Time.time;
+                if (usageType == GunUseType.Melee)
+                {
+                    lastAttackTime = Time.time; // Saldırı zamanını güncelle
                     ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
                     ActiveMonoBehaviour.StartCoroutine(DealDamage());
                 }
+                ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
             }
             else
             {
@@ -153,16 +156,6 @@ namespace DotGalacticos.Guns
             {
                 Debug.LogWarning("Weapon collider is not assigned.");
             }
-        }
-        public void Throw(Transform throwOrigin)
-        {
-            GameObject thrownWeapon = Instantiate(ModelPrefab, throwOrigin.position, ModelPrefab.transform.rotation);
-            thrownWeapon.GetComponent<Animator>().enabled = false;
-            Rigidbody rb = thrownWeapon.GetComponent<Rigidbody>();
-            rb.AddForce(throwOrigin.forward * throwForce, ForceMode.Impulse);
-            rb.angularVelocity = Vector3.up * rotationSpeed * Mathf.Deg2Rad;
-
-            Object.Destroy(thrownWeapon, lifetime); // Belirli bir süre sonra yok olma
         }
         public void Hit(Vector3 position)
         {
