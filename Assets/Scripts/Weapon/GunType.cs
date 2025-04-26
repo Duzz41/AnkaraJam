@@ -5,7 +5,7 @@ public enum GunType
     Spoon,
     ThrowAxe,
     Staff,
-    Stick,
+    Kunai,
     Baloon,
     Bat
 }
