@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d66d1935f4103341a9ccbb7b8c243b9, type: 3}
+  m_Name: Baloon
+  m_EditorClassIdentifier: 
+  Type: 6
+  Name: Baloon
+  Damage: 1
+  AttackCooldown: 1.5
+  AttackRange: 2
+  isAttacking: 0
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnRotation: {x: -60, y: 0, z: -15}
+  AttackSounds:
+  - {fileID: 8300000, guid: 0252c1ae19758a045aad7f4128631e12, type: 3}
+  - {fileID: 8300000, guid: 8c5b894f63dc0874aa4fa05058ed04bd, type: 3}
+  HitSounds:
+  - {fileID: 8300000, guid: 8b97186baed2194498cb967fdda03b8e, type: 3}
+  - {fileID: 8300000, guid: 61b45d1fbd9fc8a4d97d9ad3719191b0, type: 3}
+  ModelPrefab: {fileID: 5977752592775929176, guid: 28f9e1e3e4fbcd347b9b3991e25a515b, type: 3}
+  modelAudioSource: {fileID: 0}

@@ -14,13 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   Name: Sword
-  Damage: 0
-  AttackCooldown: 0
-  AttackRange: 0
+  Damage: 5
+  AttackCooldown: 2
+  AttackRange: 4
   isAttacking: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
-  AttackSounds: []
-  HitSounds: []
-  ModelPrefab: {fileID: 1385841779910479837, guid: 42f5ccfc594d56643b2fd5b6673469da, type: 3}
+  AttackSounds:
+  - {fileID: 8300000, guid: 6799878a193e053498a0fa2e8130f127, type: 3}
+  - {fileID: 8300000, guid: 60d2fde092a5f1f4d94cdfc36bdbb7cf, type: 3}
+  HitSounds:
+  - {fileID: 8300000, guid: 0252c1ae19758a045aad7f4128631e12, type: 3}
+  ModelPrefab: {fileID: 5281531863371204320, guid: 783205951e766b8489f5955705fa7af9, type: 3}
   modelAudioSource: {fileID: 0}

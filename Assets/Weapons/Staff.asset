@@ -20,7 +20,9 @@ MonoBehaviour:
   isAttacking: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
-  AttackSounds: []
-  HitSounds: []
-  ModelPrefab: {fileID: 1385841779910479837, guid: c07c70cb9efb0db42a1ee7f9069e9229, type: 3}
+  AttackSounds:
+  - {fileID: 8300000, guid: 7cf61e0c51777c542ac593e1bfbb0c45, type: 3}
+  HitSounds:
+  - {fileID: 8300000, guid: 8c5b894f63dc0874aa4fa05058ed04bd, type: 3}
+  ModelPrefab: {fileID: 8937179507308257749, guid: 31e712f56e162e24f9e3b0270bc859cf, type: 3}
   modelAudioSource: {fileID: 0}

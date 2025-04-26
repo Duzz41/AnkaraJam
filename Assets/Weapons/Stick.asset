@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d66d1935f4103341a9ccbb7b8c243b9, type: 3}
-  m_Name: Spear
+  m_Name: Stick
   m_EditorClassIdentifier: 
   Type: 5
-  Name: Spear
+  Name: Stick
   Damage: 0
-  AttackCooldown: 0
-  AttackRange: 0
+  AttackCooldown: 1
+  AttackRange: 1
   isAttacking: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
-  AttackSounds: []
-  HitSounds: []
-  ModelPrefab: {fileID: 1385841779910479837, guid: fd0bf118a35b1a64d920445f8f353200, type: 3}
+  AttackSounds:
+  - {fileID: 8300000, guid: 6799878a193e053498a0fa2e8130f127, type: 3}
+  HitSounds:
+  - {fileID: 8300000, guid: 0252c1ae19758a045aad7f4128631e12, type: 3}
+  ModelPrefab: {fileID: 1385841779910479837, guid: 42f5ccfc594d56643b2fd5b6673469da, type: 3}
   modelAudioSource: {fileID: 0}
