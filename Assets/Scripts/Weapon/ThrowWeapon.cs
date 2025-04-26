@@ -1,3 +1,4 @@
+using System.Collections;
 using DotGalacticos.Guns;
 using Unity.Mathematics;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class ThrowWeapon : MonoBehaviour
     public float rotationSpeed = 360f; // Dönme hızı
     public float lifetime = 5f; // Yok olma süresi
     public Vector3 offset;
+    public Vector3 offsetRotation;
     public Transform spawnPoint;
     public MeleeWeaponScriptableObject weaponData; // MeleeWeaponScriptableObject referansı
     private int damage; // Düşmana verilecek hasar
@@ -17,7 +19,7 @@ public class ThrowWeapon : MonoBehaviour
         if (weaponData != null)
         {
             damage = weaponData.Damage; // Hasar bilgisini al
-            
+
         }
         else
         {
@@ -26,8 +28,9 @@ public class ThrowWeapon : MonoBehaviour
     }
     public void ThrowObject()
     {
+        transform.localScale = Vector3.zero;
         Vector3 throwDirection = Camera.main.transform.forward;
-        GameObject thrownWeapon = Instantiate(gameObject, spawnPoint.position + offset, quaternion.identity);
+        GameObject thrownWeapon = Instantiate(weaponData.ModelPrefab, spawnPoint.position + offset, Quaternion.Euler(spawnPoint.rotation.eulerAngles + offsetRotation));
         thrownWeapon.GetComponent<Animator>().enabled = false; // Animasyonu devre dışı bırak
         Rigidbody rb = thrownWeapon.GetComponent<Rigidbody>();
 
@@ -42,6 +45,16 @@ public class ThrowWeapon : MonoBehaviour
         }
 
         Object.Destroy(thrownWeapon, lifetime); // Belirli bir süre sonra yok olma
+        StartCoroutine(ResetScale(this.gameObject));
+    }
+
+    private IEnumerator ResetScale(GameObject thrownWeapon)
+    {
+        // Fırlatma sonrası ölçeği geri döndürmek için bekle
+        yield return new WaitForSeconds(0.5f); // İstediğiniz süreyi ayarlayın
+
+        // Ölçeği geri döndür
+        thrownWeapon.transform.localScale = weaponData.ModelPrefab.transform.localScale; // Normal ölçek
     }
     void OnCollisionEnter(Collision collision)
     {

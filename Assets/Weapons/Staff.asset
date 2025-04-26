@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Staff
   m_EditorClassIdentifier: 
   Type: 4
+  usageType: 1
   Name: Stuff
-  Damage: 0
-  AttackCooldown: 0
+  Damage: 50
+  AttackCooldown: 3
   AttackRange: 0
   isAttacking: 0
+  throwForce: 0
+  rotationSpeed: 0
+  lifetime: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
   AttackSounds:
@@ -25,4 +29,6 @@ MonoBehaviour:
   HitSounds:
   - {fileID: 8300000, guid: 8c5b894f63dc0874aa4fa05058ed04bd, type: 3}
   ModelPrefab: {fileID: 8937179507308257749, guid: 31e712f56e162e24f9e3b0270bc859cf, type: 3}
+  projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
+  projectileSpeed: 20
