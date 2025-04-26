@@ -76,7 +76,6 @@ namespace DotGalacticos.Guns
                 isAttacking = true;
                 AudioClip AttackSound = AttackSounds[Random.Range(0, AttackSounds.Length)];
                 modelAudioSource.PlayOneShot(AttackSound);
-                Debug.Log($"{Name} ile saldırıldı! Hasar: {Damage}");
 
                 // Melee attack logic
                 if (weaponAnimator != null)
@@ -141,28 +140,6 @@ namespace DotGalacticos.Guns
             yield return null;
         }
 
-        public void CheckForEnemyHit()
-        {
-            // Silahın collider'ını al
-            Collider weaponCollider = ModelPrefab.GetComponent<Collider>();
-            if (weaponCollider != null)
-            {
-                // Collider ile düşmanları kontrol et
-                Collider[] hitColliders = Physics.OverlapBox(weaponCollider.bounds.center, weaponCollider.bounds.extents, ModelPrefab.transform.rotation);
-                foreach (var hitCollider in hitColliders)
-                {
-                    if (hitCollider.CompareTag("Enemy"))
-                    {
-                        Debug.Log($"{Name} düşmana vurdu!");
-                        hitCollider.GetComponent<EnemyHealth>().TakeDamage(Damage);
-                    }
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Weapon collider is not assigned.");
-            }
-        }
         public void Hit(Vector3 position)
         {
             AudioClip HitSound = HitSounds[Random.Range(0, HitSounds.Length)];

@@ -9,8 +9,8 @@ public class RangedWeapons : MonoBehaviour
     void ShootProjectile()
     {
         // Rayın başlangıç noktası ve yönü
-        Vector3 rayOrigin = spawnPoint.position;
-        Vector3 rayDirection = spawnPoint.forward; // Karakterin baktığı yön
+        Vector3 rayOrigin = Camera.main.transform.position;
+        Vector3 rayDirection = Camera.main.transform.forward; // Karakterin baktığı yön
 
         RaycastHit hit;
         // Raycast ile çarpma noktasını kontrol et

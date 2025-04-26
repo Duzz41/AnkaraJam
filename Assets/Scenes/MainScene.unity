@@ -3571,7 +3571,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6863718908566720747, guid: 59aef2e976d47b94abed7506cc5b7c01, type: 3}
       propertyPath: gunType
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7263258005062679155, guid: 59aef2e976d47b94abed7506cc5b7c01, type: 3}
       propertyPath: m_LocalPosition.x
