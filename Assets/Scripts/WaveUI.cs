@@ -24,23 +24,23 @@ public class WaveUI : MonoBehaviour
     public GameObject waveBanner;
 
     // Reference to the wave spawner
-    private WaveSpawner _waveSpawner;
+    private EnhancedWaveSpawner _enhancedWaveSpawner;
 
     private void Start()
     {
         // Find the wave spawner in the scene
-        _waveSpawner = FindObjectOfType<WaveSpawner>();
+        _enhancedWaveSpawner = FindObjectOfType<EnhancedWaveSpawner>();
         
-        if (_waveSpawner == null)
+        if (_enhancedWaveSpawner == null)
         {
             Debug.LogError("WaveUI couldn't find a WaveSpawner in the scene!");
             return;
         }
 
         // Subscribe to wave events
-        _waveSpawner.onWaveStart.AddListener(OnWaveStart);
-        _waveSpawner.onWaveCompleted.AddListener(OnWaveCompleted);
-        _waveSpawner.onAllWavesCompleted.AddListener(OnAllWavesCompleted);
+        _enhancedWaveSpawner.onWaveStart.AddListener(OnWaveStart);
+        _enhancedWaveSpawner.onWaveCompleted.AddListener(OnWaveCompleted);
+        _enhancedWaveSpawner.onAllWavesCompleted.AddListener(OnAllWavesCompleted);
 
         // Hide the wave banner initially
         if (waveBanner != null)
@@ -51,10 +51,10 @@ public class WaveUI : MonoBehaviour
 
     private void Update()
     {
-        if (_waveSpawner != null && enemiesText != null)
+        if (_enhancedWaveSpawner != null && enemiesText != null)
         {
             // Update enemies remaining text
-            enemiesText.text = $"Düşmanlar: {_waveSpawner.RemainingEnemies}";
+            enemiesText.text = $"Düşmanlar: {_enhancedWaveSpawner.RemainingEnemies}";
         }
     }
 
@@ -63,7 +63,7 @@ public class WaveUI : MonoBehaviour
         // Update wave text
         if (waveText != null)
         {
-            waveText.text = $"WAVE {_waveSpawner.CurrentWave}/{_waveSpawner.TotalWaves}";
+            waveText.text = $"WAVE {_enhancedWaveSpawner.CurrentWave}/{_enhancedWaveSpawner.TotalWaves}";
         }
 
         // Show wave banner
@@ -73,9 +73,9 @@ public class WaveUI : MonoBehaviour
     private void OnWaveCompleted(int waveIndex)
     {
         // If we have a countdown text, start the countdown to next wave
-        if (countdownText != null && waveIndex < _waveSpawner.TotalWaves - 1)
+        if (countdownText != null && waveIndex < _enhancedWaveSpawner.TotalWaves - 1)
         {
-            StartCoroutine(ShowCountdown(_waveSpawner.waves[waveIndex].waveInterval));
+            StartCoroutine(ShowCountdown(_enhancedWaveSpawner.waves[waveIndex].waveInterval));
         }
     }
 
@@ -109,7 +109,7 @@ public class WaveUI : MonoBehaviour
         // Show wave completed message first
         if (waveText != null)
         {
-            waveText.text = $"WAVE {_waveSpawner.CurrentWave} TAMAMLANDI!";
+            waveText.text = $"WAVE {_enhancedWaveSpawner.CurrentWave} TAMAMLANDI!";
             waveBanner.SetActive(true);
             yield return new WaitForSeconds(2f);
             waveBanner.SetActive(false);
