@@ -11,6 +11,7 @@ namespace DotGalacticos.Guns
         public string Name;
         public int Damage;
         public float AttackCooldown;
+
         [Header("Attack Settings")]
         public float AttackRange;
         public bool isAttacking;
@@ -29,10 +30,11 @@ namespace DotGalacticos.Guns
         [Header("Model Prefab")]
         public GameObject ModelPrefab; // Model prefabı eklendi
         private Animator weaponAnimator;
+        public GameObject projectilePrefab;
         [SerializeField]
         private AudioSource modelAudioSource;
         private float lastAttackTime; // Son saldırı zamanı
-
+        public float projectileSpeed = 20f; // Merminin hızı
 
         private MonoBehaviour ActiveMonoBehaviour;
 
@@ -92,7 +94,11 @@ namespace DotGalacticos.Guns
                     ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
                     ActiveMonoBehaviour.StartCoroutine(DealDamage());
                 }
-                ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
+                else
+                {
+                    lastAttackTime = Time.time;
+                    ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
+                }
             }
             else
             {
@@ -147,7 +153,7 @@ namespace DotGalacticos.Guns
                 {
                     if (hitCollider.CompareTag("Enemy"))
                     {
-                        Debug.Log($"{Name} düşmana vurdu!"); // Düşmana vurulduğunda log mesajı
+                        Debug.Log($"{Name} düşmana vurdu!");
                         hitCollider.GetComponent<EnemyHealth>().TakeDamage(Damage);
                     }
                 }
