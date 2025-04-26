@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace DotGalacticos.Guns
@@ -8,8 +9,9 @@ namespace DotGalacticos.Guns
         public GunType Type;
         public string Name;
         public int Damage;
-        public float AttackRange;
         public float AttackCooldown;
+        public float AttackRange;
+        public bool isAttacking;
 
         public Vector3 SpawnPosition;
         public Vector3 SpawnRotation;
@@ -46,11 +48,20 @@ namespace DotGalacticos.Guns
             modelAudioSource = ModelPrefab.GetComponent<AudioSource>();
             weaponAnimator = ModelPrefab.GetComponent<Animator>();
         }
+        public void Despawn()
+        {
 
+            Debug.Log($"Destroying {ModelPrefab.name}");
+            Destroy(ModelPrefab);
+
+            modelAudioSource = null;
+            weaponAnimator = null;
+        }
         public void Attack()
         {
             if (Time.time >= lastAttackTime + AttackCooldown)
             {
+                isAttacking = true;
                 AudioClip AttackSound = AttackSounds[Random.Range(0, AttackSounds.Length)];
                 modelAudioSource.PlayOneShot(AttackSound);
                 Debug.Log($"{Name} ile saldırıldı! Hasar: {Damage}");
@@ -64,11 +75,74 @@ namespace DotGalacticos.Guns
                 {
                     Debug.LogWarning("Weapon animator is not assigned.");
                 }
+
                 lastAttackTime = Time.time;
+                ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
+                ActiveMonoBehaviour.StartCoroutine(DealDamage()); // Hasar verme coroutine'u
             }
             else
             {
                 Debug.Log($"{name} sadece {AttackCooldown} saniye aralıkla saldırabilir.");
+            }
+        }
+
+        private IEnumerator ResetAttackState()
+        {
+            // AttackCooldown süresi boyunca bekle
+            yield return new WaitForSeconds(AttackCooldown);
+            isAttacking = false; // Saldırı bitti
+        }
+
+        private IEnumerator DealDamage()
+        {
+            // Saldırı sırasında düşmanları kontrol et
+            RaycastHit hit;
+            Vector3 rayOrigin = Camera.main.transform.position; // Ray başlangıç noktası
+            Vector3 rayDirection = Camera.main.transform.forward; // Ray yönü
+
+            // Raycast ile düşmanı kontrol et
+            if (Physics.Raycast(rayOrigin, rayDirection, out hit, AttackRange))
+            {
+                // Ray çizimini yap
+                Debug.DrawLine(rayOrigin, hit.point, Color.red, 1f); // Kırmızı çizgi, 1 saniye boyunca görünür
+
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    Debug.Log($"{Name} düşmana vurdu!"); // Düşmana vurulduğunda log mesajı
+                                                         // Burada düşmana hasar verme kodu yazılacak
+                                                         // Örneğin: hit.collider.GetComponent<Enemy>().TakeDamage(Damage);
+                }
+            }
+            else
+            {
+                // Ray çizimini yap
+                Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * AttackRange, Color.green, 1f); // Yeşil çizgi, 1 saniye boyunca görünür
+            }
+
+            yield return null;
+        }
+
+        public void CheckForEnemyHit()
+        {
+            // Silahın collider'ını al
+            Collider weaponCollider = ModelPrefab.GetComponent<Collider>();
+            if (weaponCollider != null)
+            {
+                // Collider ile düşmanları kontrol et
+                Collider[] hitColliders = Physics.OverlapBox(weaponCollider.bounds.center, weaponCollider.bounds.extents, ModelPrefab.transform.rotation);
+                foreach (var hitCollider in hitColliders)
+                {
+                    if (hitCollider.CompareTag("Enemy"))
+                    {
+                        Debug.Log($"{Name} düşmana vurdu!"); // Düşmana vurulduğunda log mesajı
+                        // Burada düşmana hasar verme kodu yazılacak
+                        // Örneğin: hitCollider.GetComponent<Enemy>().TakeDamage(Damage);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Weapon collider is not assigned.");
             }
         }
 
@@ -77,6 +151,7 @@ namespace DotGalacticos.Guns
             AudioClip HitSound = HitSounds[Random.Range(0, HitSounds.Length)];
             AudioSource.PlayClipAtPoint(HitSound, position);
         }
+
         public object Clone()
         {
             MeleeWeaponScriptableObject config = CreateInstance<MeleeWeaponScriptableObject>();
@@ -85,6 +160,7 @@ namespace DotGalacticos.Guns
             config.Name = Name;
             config.name = name;
             config.AttackRange = AttackRange;
+            config.isAttacking = isAttacking;
             config.AttackCooldown = AttackCooldown;
             config.Damage = Damage;
             config.AttackSounds = AttackSounds;

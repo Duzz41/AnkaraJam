@@ -15,8 +15,9 @@ MonoBehaviour:
   Type: 1
   Name: Axe
   Damage: 5
-  AttackRange: 3
   AttackCooldown: 2
+  AttackRange: 3
+  isAttacking: 0
   SpawnPosition: {x: -0.6548256, y: -0.123282656, z: -0.8021387}
   SpawnRotation: {x: -200, y: -30, z: 115}
   AttackSounds:
@@ -27,4 +28,5 @@ MonoBehaviour:
   HitSounds:
   - {fileID: 8300000, guid: 60d2fde092a5f1f4d94cdfc36bdbb7cf, type: 3}
   - {fileID: 8300000, guid: 2cb2aa916d6601a43b6129d32993287a, type: 3}
-  ModelPrefab: {fileID: 7181807173697080177, guid: bbe89576596a82e4da58fbfc4bc666f0, type: 3}
+  ModelPrefab: {fileID: 1385841779910479837, guid: 8c94bdb245006eb45a63a4037ceb52a4, type: 3}
+  modelAudioSource: {fileID: 0}

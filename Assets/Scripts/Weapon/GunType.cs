@@ -1,6 +1,11 @@
 public enum GunType
 {
-Sword,
-Axe,
-Stick
+    Sword,
+    Axe,
+    Spoon,
+    ThrowAxe,
+    Staff,
+    Stick,
+    Baloon,
+    Bat
 }
