@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: diceShield
+  m_Name: d8purple
   m_Shader: {fileID: 4800000, guid: 313fcf3aebc04cf4ab4f8c5f2850be7f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,18 +25,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: c027c86bd919dbd4cbf9347198d6f2b7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0710bf719c6b7b24cbb503d6df3d4db7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _OutlineWidth: 0.013
-    - _RimStep: 0.65
-    - _RimStepSmooth: 0.4
-    - _ShadowStep: 0.217
-    - _ShadowStepSmooth: 0.418
-    - _SpecularStep: 0
-    - _SpecularStepSmooth: 0
+    - _OutlineWidth: 0.003
+    - _RimStep: 0.68
+    - _RimStepSmooth: 0.652
+    - _ShadowStep: 0.699
+    - _ShadowStepSmooth: 0.485
+    - _SpecularStep: 0.552
+    - _SpecularStepSmooth: 0.414
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
