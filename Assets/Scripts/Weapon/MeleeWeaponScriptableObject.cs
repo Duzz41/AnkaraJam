@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using Cinemachine; // Cinemachine kütüphanesini ekleyin
 namespace DotGalacticos.Guns
 {
     [CreateAssetMenu(fileName = "Melee Weapon", menuName = "Guns/Melee Weapon", order = 0)]
@@ -35,6 +35,13 @@ namespace DotGalacticos.Guns
         private AudioSource modelAudioSource;
         private float lastAttackTime; // Son saldırı zamanı
         public float projectileSpeed = 20f; // Merminin hızı
+
+        [Header("Camera Shake Settings")]
+        public float shakeDuration = 0.2f; // Shake süresi
+        public float shakeAmplitude = 1f; // Shake genliği
+        public float shakeFrequency = 2f; // Shake frekansı
+
+        private CinemachineBasicMultiChannelPerlin perlin; // Cinemachine bileşeni
 
         private MonoBehaviour ActiveMonoBehaviour;
 
