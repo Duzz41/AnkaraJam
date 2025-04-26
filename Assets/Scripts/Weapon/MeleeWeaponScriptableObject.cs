@@ -7,12 +7,16 @@ namespace DotGalacticos.Guns
     public class MeleeWeaponScriptableObject : ScriptableObject
     {
         public GunType Type;
+        public GunUseType usageType;
         public string Name;
         public int Damage;
         public float AttackCooldown;
+        [Header("Attack Settings")]
         public float AttackRange;
         public bool isAttacking;
-
+        public float throwForce;
+        public float rotationSpeed;
+        public float lifetime;
         public Vector3 SpawnPosition;
         public Vector3 SpawnRotation;
 
@@ -66,26 +70,32 @@ namespace DotGalacticos.Guns
                 modelAudioSource.PlayOneShot(AttackSound);
                 Debug.Log($"{Name} ile saldırıldı! Hasar: {Damage}");
 
-                // Animatördeki Attack trigger'ını tetikle
-                if (weaponAnimator != null)
+                if (usageType == GunUseType.Throw)
                 {
-                    weaponAnimator.SetTrigger("Attack");
+                    Throw(ModelPrefab.gameObject.transform);
                 }
                 else
                 {
-                    Debug.LogWarning("Weapon animator is not assigned.");
-                }
+                    // Melee attack logic
+                    if (weaponAnimator != null)
+                    {
+                        weaponAnimator.SetTrigger("Attack");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Weapon animator is not assigned.");
+                    }
 
-                lastAttackTime = Time.time;
-                ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
-                ActiveMonoBehaviour.StartCoroutine(DealDamage()); // Hasar verme coroutine'u
+                    lastAttackTime = Time.time;
+                    ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
+                    ActiveMonoBehaviour.StartCoroutine(DealDamage());
+                }
             }
             else
             {
                 Debug.Log($"{name} sadece {AttackCooldown} saniye aralıkla saldırabilir.");
             }
         }
-
         private IEnumerator ResetAttackState()
         {
             // AttackCooldown süresi boyunca bekle
@@ -110,7 +120,7 @@ namespace DotGalacticos.Guns
                 {
                     Debug.Log($"{Name} düşmana vurdu!"); // Düşmana vurulduğunda log mesajı
                                                          // Burada düşmana hasar verme kodu yazılacak
-                                                         // Örneğin: hit.collider.GetComponent<Enemy>().TakeDamage(Damage);
+                    hit.collider.GetComponent<EnemyHealth>().TakeDamage(Damage);
                 }
             }
             else
@@ -135,8 +145,7 @@ namespace DotGalacticos.Guns
                     if (hitCollider.CompareTag("Enemy"))
                     {
                         Debug.Log($"{Name} düşmana vurdu!"); // Düşmana vurulduğunda log mesajı
-                        // Burada düşmana hasar verme kodu yazılacak
-                        // Örneğin: hitCollider.GetComponent<Enemy>().TakeDamage(Damage);
+                        hitCollider.GetComponent<EnemyHealth>().TakeDamage(Damage);
                     }
                 }
             }
@@ -145,7 +154,16 @@ namespace DotGalacticos.Guns
                 Debug.LogWarning("Weapon collider is not assigned.");
             }
         }
+        public void Throw(Transform throwOrigin)
+        {
+            GameObject thrownWeapon = Instantiate(ModelPrefab, throwOrigin.position, ModelPrefab.transform.rotation);
+            thrownWeapon.GetComponent<Animator>().enabled = false;
+            Rigidbody rb = thrownWeapon.GetComponent<Rigidbody>();
+            rb.AddForce(throwOrigin.forward * throwForce, ForceMode.Impulse);
+            rb.angularVelocity = Vector3.up * rotationSpeed * Mathf.Deg2Rad;
 
+            Object.Destroy(thrownWeapon, lifetime); // Belirli bir süre sonra yok olma
+        }
         public void Hit(Vector3 position)
         {
             AudioClip HitSound = HitSounds[Random.Range(0, HitSounds.Length)];
@@ -156,9 +174,13 @@ namespace DotGalacticos.Guns
         {
             MeleeWeaponScriptableObject config = CreateInstance<MeleeWeaponScriptableObject>();
             config.Type = Type;
+            config.usageType = usageType;
 
+            config.lifetime = lifetime;
+            config.rotationSpeed = rotationSpeed;
             config.Name = Name;
             config.name = name;
+            config.throwForce = throwForce;
             config.AttackRange = AttackRange;
             config.isAttacking = isAttacking;
             config.AttackCooldown = AttackCooldown;
