@@ -16,7 +16,7 @@ MonoBehaviour:
   usageType: 2
   Name: Kunai
   Damage: 10
-  AttackCooldown: 1
+  AttackCooldown: 0.1
   AttackRange: 1
   isAttacking: 0
   throwForce: 100
@@ -29,4 +29,6 @@ MonoBehaviour:
   HitSounds:
   - {fileID: 8300000, guid: 0252c1ae19758a045aad7f4128631e12, type: 3}
   ModelPrefab: {fileID: 4665916533957750142, guid: 5c11e2fa293773b45b3081add0365fdb, type: 3}
+  projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
+  projectileSpeed: 20

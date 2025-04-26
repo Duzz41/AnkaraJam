@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Bat
   m_EditorClassIdentifier: 
   Type: 7
+  usageType: 0
   Name: Bat
   Damage: 4
-  AttackCooldown: 1.5
+  AttackCooldown: 0.4
   AttackRange: 0
   isAttacking: 0
+  throwForce: 0
+  rotationSpeed: 0
+  lifetime: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
   AttackSounds:
@@ -25,4 +29,6 @@ MonoBehaviour:
   HitSounds:
   - {fileID: 8300000, guid: 7cf61e0c51777c542ac593e1bfbb0c45, type: 3}
   ModelPrefab: {fileID: 7413526444957407877, guid: 207e9d4dc964f3f4eab74bada2048f93, type: 3}
+  projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
+  projectileSpeed: 20

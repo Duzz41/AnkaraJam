@@ -50,9 +50,10 @@ namespace DotGalacticos.Guns
             ModelPrefab.transform.SetParent(Parent, false);
             ModelPrefab.transform.localPosition = SpawnPosition;
             ModelPrefab.transform.localRotation = Quaternion.Euler(SpawnRotation);
-
+            lastAttackTime = -AttackCooldown;
             modelAudioSource = ModelPrefab.GetComponent<AudioSource>();
             weaponAnimator = ModelPrefab.GetComponent<Animator>();
+            SoundManager.instance.RegisterAudioSource(modelAudioSource);
         }
         public void Despawn()
         {
@@ -65,12 +66,6 @@ namespace DotGalacticos.Guns
         }
         public void Attack()
         {
-            // Eğer ilk saldırıysa, lastAttackTime'ı hemen güncelle
-            if (lastAttackTime == 0)
-            {
-                lastAttackTime = Time.time;
-            }
-
             if (Time.time >= lastAttackTime + AttackCooldown)
             {
                 isAttacking = true;

@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: 
   Type: 1
+  usageType: 0
   Name: Axe
   Damage: 5
-  AttackCooldown: 2
+  AttackCooldown: 0.6
   AttackRange: 3
   isAttacking: 0
+  throwForce: 0
+  rotationSpeed: 0
+  lifetime: 0
   SpawnPosition: {x: -0.6548256, y: -0.123282656, z: -0.8021387}
   SpawnRotation: {x: -200, y: -30, z: 115}
   AttackSounds:
@@ -29,4 +33,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 60d2fde092a5f1f4d94cdfc36bdbb7cf, type: 3}
   - {fileID: 8300000, guid: 2cb2aa916d6601a43b6129d32993287a, type: 3}
   ModelPrefab: {fileID: 1385841779910479837, guid: 8c94bdb245006eb45a63a4037ceb52a4, type: 3}
+  projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
+  projectileSpeed: 20
