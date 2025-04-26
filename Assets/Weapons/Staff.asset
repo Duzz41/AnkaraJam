@@ -16,7 +16,7 @@ MonoBehaviour:
   usageType: 1
   Name: Stuff
   Damage: 50
-  AttackCooldown: 3
+  AttackCooldown: 0.7
   AttackRange: 0
   isAttacking: 0
   throwForce: 0
