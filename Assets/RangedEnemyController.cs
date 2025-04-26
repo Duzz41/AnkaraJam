@@ -32,6 +32,19 @@ namespace EnemyAssets
 
         [Tooltip("Time between attacks")]
         public float AttackCooldown = 2.0f;
+        
+        [Header("Floating Settings")]
+        [Tooltip("Should the enemy float/hover above ground?")]
+        public bool isFloating = true;
+        
+        [Tooltip("Height above ground to float")]
+        public float hoverHeight = 1.5f;
+        
+        [Tooltip("Hover oscillation speed")]
+        public float hoverSpeed = 1.0f;
+        
+        [Tooltip("Maximum hover oscillation amplitude")]
+        public float hoverAmplitude = 0.2f;
 
         [Header("Projectile Settings")]
         [Tooltip("Projectile prefab to spawn")]
@@ -101,6 +114,14 @@ namespace EnemyAssets
             // Set NavMeshAgent properties
             _agent.speed = MoveSpeed;
             _agent.stoppingDistance = OptimalRange * 0.8f;
+            
+            // Make the enemy float if enabled
+            if (isFloating)
+            {
+                // Set the NavMeshAgent to not be affected by typical y-position constraints
+                _agent.agentTypeID = -1372625422; // Flying agent type ID
+                _agent.baseOffset = hoverHeight;
+            }
 
             // Assign animation IDs
             AssignAnimationIDs();
@@ -131,6 +152,32 @@ namespace EnemyAssets
 
             // Update animator
             UpdateAnimator();
+            
+            // Apply floating effect if enabled
+            if (isFloating)
+            {
+                ApplyFloatingEffect();
+            }
+        }
+        
+        private void ApplyFloatingEffect()
+        {
+            // Raycast down to find ground
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
+            {
+                // Calculate target height above ground
+                float targetHeight = hit.point.y + hoverHeight;
+                
+                // Add sine wave oscillation for floating effect
+                float oscillation = Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
+                targetHeight += oscillation;
+                
+                // Apply the height
+                Vector3 newPosition = transform.position;
+                newPosition.y = Mathf.Lerp(newPosition.y, targetHeight, Time.deltaTime * 3f);
+                transform.position = newPosition;
+            }
         }
 
         private void UpdateState(float distanceToPlayer)
@@ -251,6 +298,9 @@ namespace EnemyAssets
             if (_hasAnimator)
             {
                 _animator.SetTrigger(_animIDAttack);
+                
+                // Play a more dramatic attack animation sequence
+                StartCoroutine(PlayAttackAnimationSequence());
             }
 
             // Play attack sound
@@ -266,10 +316,61 @@ namespace EnemyAssets
             }
         }
 
+        private IEnumerator PlayAttackAnimationSequence()
+        {
+            // Optional: Stop movement during attack animation
+            float originalSpeed = _agent.speed;
+            _agent.speed = 0;
+            
+            // Add dramatic pre-attack pose (if you have a parameter in your animator)
+            if (_hasAnimator)
+            {
+                _animator.SetBool("IsCharging", true);
+            }
+            
+            // Optional: Make the enemy rise higher during attack
+            float chargeTime = 0.5f;
+            Vector3 startPos = transform.position;
+            Vector3 chargePos = transform.position + new Vector3(0, 0.5f, 0);
+            
+            // Rise up animation
+            float elapsed = 0;
+            while (elapsed < chargeTime)
+            {
+                transform.position = Vector3.Lerp(startPos, chargePos, elapsed / chargeTime);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            
+            // Hold the pose for a moment
+            yield return new WaitForSeconds(0.2f);
+            
+            // End the charging state
+            if (_hasAnimator)
+            {
+                _animator.SetBool("IsCharging", false);
+            }
+            
+            // Wait for projectile to actually spawn
+            yield return new WaitForSeconds(0.3f);
+            
+            // Lower back down animation
+            elapsed = 0;
+            while (elapsed < chargeTime * 0.7f)
+            {
+                transform.position = Vector3.Lerp(chargePos, startPos, elapsed / (chargeTime * 0.7f));
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            
+            // Resume normal movement
+            _agent.speed = originalSpeed;
+        }
+
         private IEnumerator DelayedProjectileSpawn()
         {
-            // Wait a bit for animation
-            yield return new WaitForSeconds(0.3f);
+            // Wait for the animation to reach the point where projectile should spawn
+            yield return new WaitForSeconds(0.7f);
             
             // Calculate direction to player, taking into account potential movement
             Vector3 targetPosition = _playerTransform.position;
@@ -279,6 +380,9 @@ namespace EnemyAssets
             
             // Calculate direction
             Vector3 shootDirection = (targetPosition - ProjectileSpawnPoint.position).normalized;
+            
+            // Add a visual effect at the spawn point (optional)
+            // If you have a charge effect prefab, instantiate it here
             
             // Spawn projectile
             GameObject projectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.LookRotation(shootDirection));
