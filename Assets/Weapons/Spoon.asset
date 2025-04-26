@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Spoon
   m_EditorClassIdentifier: 
   Type: 2
+  usageType: 0
   Name: Spoon
-  Damage: 1
-  AttackCooldown: 1
-  AttackRange: 1
+  Damage: 4
+  AttackCooldown: 0.4
+  AttackRange: 0.5
   isAttacking: 0
+  throwForce: 0
+  rotationSpeed: 0
+  lifetime: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
   AttackSounds:
@@ -25,4 +29,6 @@ MonoBehaviour:
   HitSounds:
   - {fileID: 8300000, guid: 61b45d1fbd9fc8a4d97d9ad3719191b0, type: 3}
   ModelPrefab: {fileID: 8226792743296412863, guid: fbd83cde3d4dd4843b1a6c320258be43, type: 3}
+  projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
+  projectileSpeed: 20
