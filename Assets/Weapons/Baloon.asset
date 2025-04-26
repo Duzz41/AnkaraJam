@@ -15,8 +15,8 @@ MonoBehaviour:
   Type: 6
   Name: Baloon
   Damage: 1
-  AttackCooldown: 1.5
-  AttackRange: 2
+  AttackCooldown: 0.4
+  AttackRange: 3
   isAttacking: 0
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: -60, y: 0, z: -15}

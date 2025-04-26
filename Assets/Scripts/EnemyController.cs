@@ -60,7 +60,7 @@ namespace EnemyAssets
             // Get components
             _agent = GetComponent<NavMeshAgent>();
             _hasAnimator = TryGetComponent(out _animator);
-            
+
             // Find player (assuming it has "Player" tag)
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
@@ -142,11 +142,11 @@ namespace EnemyAssets
                     // In chasing state, enemy moves toward player
                     _agent.isStopped = false;
                     _agent.SetDestination(_playerTransform.position);
-                    
+
                     // Set the run animation
                     bool isSprinting = true; // Always sprint when chasing
                     SetMovementAnimation(isSprinting ? SprintSpeed : MoveSpeed);
-                    
+
                     // Rotate toward movement direction
                     if (_agent.velocity.magnitude > 0.1f)
                     {
@@ -160,15 +160,15 @@ namespace EnemyAssets
                 case EnemyState.Attacking:
                     // In attacking state, enemy stops and attacks
                     _agent.isStopped = true;
-                    
+
                     // Set the idle animation (no movement when attacking)
                     SetMovementAnimation(0);
-                    
+
                     // Look at player
                     Vector3 direction = (_playerTransform.position - transform.position).normalized;
                     Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
                     transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-                    
+
                     // Attack if cooldown allows
                     if (Time.time >= _nextAttackTime)
                     {
@@ -183,10 +183,10 @@ namespace EnemyAssets
         {
             // Get current speed for smooth transition
             float currentSpeed = _animationBlend;
-            
+
             // Smooth animation blending to target speed
             _animationBlend = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            
+
             // Round to avoid small floating-point errors
             if (_animationBlend < 0.01f) _animationBlend = 0f;
         }
@@ -196,7 +196,7 @@ namespace EnemyAssets
             // Trigger attack animation
             if (_hasAnimator)
             {
-                _animator.SetTrigger(_animIDAttack);
+                // _animator.SetTrigger(_animIDAttack);
             }
 
             // Play attack sound
@@ -212,7 +212,7 @@ namespace EnemyAssets
             {
                 // Update speed parameter (for walking/running animation)
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
-                
+
                 // Set motion speed to 1 when moving, 0 when idle
                 float motionSpeed = (_animationBlend > 0.1f) ? 1f : 0f;
                 _animator.SetFloat(_animIDMotionSpeed, motionSpeed);
@@ -223,7 +223,7 @@ namespace EnemyAssets
         private void OnAttackHit()
         {
             // Deal damage to player if in range
-            if (_playerTransform != null && 
+            if (_playerTransform != null &&
                 Vector3.Distance(transform.position, _playerTransform.position) <= AttackRange)
             {
                 // Get player health component and damage it
@@ -234,7 +234,7 @@ namespace EnemyAssets
                 }
             }
         }
-        
+
         // For footstep sounds - called by animation events
         private void OnFootstep(AnimationEvent animationEvent)
         {

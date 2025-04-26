@@ -13,16 +13,20 @@ MonoBehaviour:
   m_Name: Throw Axe
   m_EditorClassIdentifier: 
   Type: 3
+  usageType: 2
   Name: Throw Axe
-  Damage: 0
-  AttackCooldown: 0
-  AttackRange: 0
+  Damage: 5
+  AttackCooldown: 3
+  AttackRange: 2
   isAttacking: 0
+  throwForce: 1
+  rotationSpeed: 100
+  lifetime: 100
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
   AttackSounds:
   - {fileID: 8300000, guid: 0252c1ae19758a045aad7f4128631e12, type: 3}
   HitSounds:
   - {fileID: 8300000, guid: 8b97186baed2194498cb967fdda03b8e, type: 3}
-  ModelPrefab: {fileID: 1385841779910479837, guid: c07c70cb9efb0db42a1ee7f9069e9229, type: 3}
+  ModelPrefab: {fileID: 6145515958250407883, guid: b86971b51b86ca94f9de0966428f88e4, type: 3}
   modelAudioSource: {fileID: 0}
