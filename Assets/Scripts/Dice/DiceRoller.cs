@@ -8,46 +8,63 @@ namespace DotGalacticos.Guns
     {
         [SerializeField] private PlayerWeaponSelector weaponSelector; // Silah seçici
         [SerializeField] private float rollDuration = 3f; // Zar atma süresi
-        [SerializeField] private float rollInterval = 1f; // Her zar atma aralığı
         [SerializeField] private GameObject diceObject; // Zar modeli
         [SerializeField] private Transform handTransform; // Elin transform'u
         [SerializeField] private float rotationSpeed = 720f; // Zar dönüş hızı (derece/saniye)
         [SerializeField] private float handShowDuration = 5f; // Elin ekranda kalma süresi
-        [SerializeField] private float autoRollInterval = 30f; // Otomatik zar atma aralığı (saniye)
+        
+        [Header("Shield Dice Reference")]
+        [SerializeField] private ShieldDiceRoller shieldDiceRoller; // Kalkan zarı referansı
+        
+        [Header("Randomize Roll Intervals")]
+        [SerializeField] private float minRollInterval = 15f; // Minimum zar atma aralığı (saniye)
+        [SerializeField] private float maxRollInterval = 25f; // Maximum zar atma aralığı (saniye)
 
         private bool isRolling = false;
         private int finalDiceResult = 0;
-        private float autoRollTimer = 0f;
+        private float nextRollTimer = 0f;
+        private float currentRollInterval = 0f;
+        
+        // Referans noktası olarak kullanmak için dice'ın başlangıç rotasyonu
+        private Quaternion diceInitialRotation;
 
         void Start()
         {
             // Başlangıçta zarı ve eli gizle
             if (diceObject != null)
+            {
                 diceObject.SetActive(false);
+                // Zar'ın başlangıç rotasyonunu kaydet
+                diceInitialRotation = diceObject.transform.localRotation;
+            }
             
             if (handTransform != null)
                 handTransform.gameObject.SetActive(false);
+                
+            // İlk zar atma zamanını belirle
+            SetNextRollInterval();
         }
 
         void Update()
         {
-            // Manuel zar atma kontrolü
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                isRolling = false;
-                StartRolling(); // F tuşuna basıldığında zar at
-            }
-
             // Otomatik zar atma zamanlayıcısı
-            autoRollTimer += Time.deltaTime;
-            if (autoRollTimer >= autoRollInterval)
+            nextRollTimer += Time.deltaTime;
+            if (nextRollTimer >= currentRollInterval)
             {
-                autoRollTimer = 0f;
+                nextRollTimer = 0f;
                 if (!isRolling)
                 {
                     StartRolling(); // Belirli aralıklarla otomatik zar at
+                    SetNextRollInterval(); // Bir sonraki zar atımı için süreyi yeniden belirle
                 }
             }
+        }
+        
+        // Bir sonraki zar atımı için rastgele süre belirle
+        private void SetNextRollInterval()
+        {
+            currentRollInterval = Random.Range(minRollInterval, maxRollInterval);
+            Debug.Log($"Bir sonraki zar atımı {currentRollInterval} saniye sonra gerçekleşecek.");
         }
 
         public void StartRolling()
@@ -55,6 +72,12 @@ namespace DotGalacticos.Guns
             if (!isRolling)
             {
                 StartCoroutine(RollDiceCoroutine());
+                
+                // Aynı anda kalkan zarını da başlat
+                if (shieldDiceRoller != null)
+                {
+                    shieldDiceRoller.StartRollingWithWeaponDice();
+                }
             }
         }
 
@@ -77,12 +100,12 @@ namespace DotGalacticos.Guns
             {
                 if (diceObject != null)
                 {
-                    // Her frame'de zarı farklı eksenlerde döndür
+                    // Her frame'de zarı farklı eksenlerde döndür (local space'de döndür)
                     float xRotation = rotationSpeed * Time.deltaTime;
                     float yRotation = rotationSpeed * 0.8f * Time.deltaTime;
                     float zRotation = rotationSpeed * 0.6f * Time.deltaTime;
                     
-                    diceObject.transform.Rotate(xRotation, yRotation, zRotation, Space.World);
+                    diceObject.transform.Rotate(xRotation, yRotation, zRotation, Space.Self);
                 }
                 
                 elapsedTime += Time.deltaTime;
@@ -91,7 +114,7 @@ namespace DotGalacticos.Guns
             
             // Zar sonucunu belirle (1-8 arası)
             finalDiceResult = Random.Range(1, 9);
-            Debug.Log($"Zar sonucu: {finalDiceResult}");
+            Debug.Log($"Silah zarı sonucu: {finalDiceResult}");
             
             // Zarın son pozisyonunu ayarla (sonuca göre)
             if (diceObject != null)
@@ -118,14 +141,13 @@ namespace DotGalacticos.Guns
         
         private void SetDiceFace(int faceValue)
         {
-            // Zarın yüzünü ayarlamak için rotasyonlar (8 yüzlü zar için)
-            // Not: Bu rotasyonlar örnek olarak verilmiştir, gerçek 8 yüzlü zar modelinize göre ayarlamanız gerekir
+            // Local rotasyonları kullan (dünya koordinatları yerine)
             Quaternion targetRotation = Quaternion.identity;
             
             switch (faceValue)
             {
                 case 1:
-                    targetRotation = Quaternion.Euler(-45, -22.5f , 0); // 1 üstte
+                    targetRotation = Quaternion.Euler(-45, -22.5f, 0); // 1 üstte
                     break;
                 case 2:
                     targetRotation = Quaternion.Euler(-123.5f, -20, 90); // 2 üstte
@@ -150,8 +172,8 @@ namespace DotGalacticos.Guns
                     break;
             }
             
-            // Zarın rotasyonunu belirle
-            diceObject.transform.rotation = targetRotation;
+            // Zarın LOCAL rotasyonunu belirle (parent'ın rotasyonundan bağımsız)
+            diceObject.transform.localRotation = targetRotation;
         }
     }
 }
