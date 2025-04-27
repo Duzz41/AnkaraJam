@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement; // Ana menüye dönmek için gerekli
+using UnityEngine.UI; // Image için gerekli
 
 public class EnhancedWaveSpawner : MonoBehaviour
 {
@@ -55,6 +57,13 @@ public class EnhancedWaveSpawner : MonoBehaviour
     [Tooltip("Preferred spawn points for ranged enemies (if empty, will use regular spawn points)")]
     public Transform[] rangedSpawnPoints;
 
+    [Header("Win Screen")]
+    [Tooltip("Kazandınız görseli")]
+    public GameObject winScreen;
+    
+    [Tooltip("Ana menü sahne adı")]
+    public string mainMenuSceneName = "MainMenu";
+
     [Header("Events")]
     [Tooltip("Event triggered when a wave starts")]
     public UnityEvent<int> onWaveStart;
@@ -87,6 +96,12 @@ public class EnhancedWaveSpawner : MonoBehaviour
     {
         // Start the first wave
         StartWave();
+        
+        // Başlangıçta kazandınız ekranını gizle
+        if (winScreen != null)
+        {
+            winScreen.SetActive(false);
+        }
     }
 
     private void Update()
@@ -139,10 +154,41 @@ public class EnhancedWaveSpawner : MonoBehaviour
             // All waves completed!
             Debug.Log("All waves completed!");
             onAllWavesCompleted?.Invoke();
+            
+            // Kazandınız ekranını göster
+            ShowWinScreen();
         }
         
         // Geçiş tamamlandı, yeni wave'e geçilebilir
         _isTransitioning = false;
+    }
+
+    private void ShowWinScreen()
+    {
+        // Kazandınız görselini göster
+        if (winScreen != null)
+        {
+            winScreen.SetActive(true);
+        }
+        
+        // 5 saniye sonra ana menüye dön
+        StartCoroutine(ReturnToMainMenu());
+    }
+    
+    private IEnumerator ReturnToMainMenu()
+    {
+        // 5 saniye bekle
+        yield return new WaitForSeconds(5f);
+        
+        // Ana menüye dön
+        if (!string.IsNullOrEmpty(mainMenuSceneName))
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
+        else
+        {
+            Debug.LogError("Ana menü sahne adı belirtilmemiş!");
+        }
     }
 
     private void StartWave()
