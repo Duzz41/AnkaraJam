@@ -35,4 +35,4 @@ MonoBehaviour:
   projectileSpeed: 20
   shakeDuration: 0.6
   shakeAmplitude: -1
-  shakeFrequency: -1
+  shakeFrequency: 0.5
