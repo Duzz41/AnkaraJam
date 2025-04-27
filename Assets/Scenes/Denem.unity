@@ -3374,22 +3374,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3539266037954144866, guid: a414d745b863edf4e8850af4083bfb58, type: 3}
-      propertyPath: ProjectileSpeed
-      value: 0.001
-      objectReference: {fileID: 0}
     - target: {fileID: 7407922950825478177, guid: a414d745b863edf4e8850af4083bfb58, type: 3}
       propertyPath: m_Name
       value: magician
       objectReference: {fileID: 0}
-    - target: {fileID: 7407922950825478177, guid: a414d745b863edf4e8850af4083bfb58, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8389805063211165667, guid: a414d745b863edf4e8850af4083bfb58, type: 3}
-      propertyPath: deathEffect
-      value: 
-      objectReference: {fileID: 7050293897086688161, guid: 3555e6ed211aa2249a0451ac5d871bba, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4289,37 +4277,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyLast
       objectReference: {fileID: 0}
-    - target: {fileID: 4700924860923686725, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8764102676962759018, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: AttackRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8764102676962759018, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: AttackCooldown
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8764102676962759018, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: swordLocalPosition.x
-      value: -6.039768
-      objectReference: {fileID: 0}
-    - target: {fileID: 8764102676962759018, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: swordLocalPosition.y
-      value: -0.266468
-      objectReference: {fileID: 0}
-    - target: {fileID: 8764102676962759018, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: swordLocalPosition.z
-      value: -1.848
-      objectReference: {fileID: 0}
-    - target: {fileID: 8789553200594034412, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-      propertyPath: deathEffect
-      value: 
-      objectReference: {fileID: 7050293897086688161, guid: 3555e6ed211aa2249a0451ac5d871bba, type: 3}
-    m_RemovedComponents:
-    - {fileID: 4661083495594575626, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
-    - {fileID: 1602491640836095212, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
