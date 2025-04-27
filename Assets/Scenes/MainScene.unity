@@ -324,6 +324,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+--- !u!1 &48964404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48964405}
+  m_Layer: 8
+  m_Name: Hand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &48964405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48964404}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.231, y: 1.286, z: 0.573}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 434748811}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &66818339
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +754,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8056673088082205806, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
   m_PrefabInstance: {fileID: 7221915081710628431}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &434748811 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+  m_PrefabInstance: {fileID: 7221915081710628431}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &434748812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,11 +950,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8762286024517199035, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_AmplitudeGain
-      value: 1.538083
+      value: 0.01696389
       objectReference: {fileID: 0}
     - target: {fileID: 8762286024517199035, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_FrequencyGain
-      value: 3.076167
+      value: 0.01696389
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4327,7 +4363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8581301246921457491, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: gunType
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9046013182678923328, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_Layer
@@ -4335,7 +4371,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 48964405}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8056673088082205806, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       insertIndex: -1

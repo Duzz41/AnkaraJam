@@ -287,7 +287,7 @@ MonoBehaviour:
   throwForce: 50
   rotationSpeed: 1
   lifetime: 10
-  offset: {x: 0, y: -0.3, z: 1}
+  offset: {x: 0, y: -0.3, z: 0}
   offsetRotation: {x: -90, y: 0, z: 0}
   spawnPoint: {fileID: 0}
   weaponData: {fileID: 11400000, guid: 8fdbc7c97c9ebbb4aa13e3e3f526759c, type: 2}

@@ -30,7 +30,6 @@ namespace DotGalacticos.Guns
 
 
             if (GunSelector.ActiveWeapon.isAttacking == true)
-
             {
                 StartCoroutine(ShakeCamera(GunSelector.ActiveWeapon));
             }

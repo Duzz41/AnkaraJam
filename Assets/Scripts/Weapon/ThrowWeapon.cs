@@ -15,7 +15,7 @@ public class ThrowWeapon : MonoBehaviour
     private int damage; // Düşmana verilecek hasar
     void Start()
     {
-        spawnPoint = GameObject.Find("GunSpawn").transform;
+        spawnPoint = GameObject.Find("Hand").transform;
         if (weaponData != null)
         {
             damage = weaponData.Damage; // Hasar bilgisini al
@@ -30,7 +30,7 @@ public class ThrowWeapon : MonoBehaviour
     {
         transform.localScale = Vector3.zero;
         Vector3 throwDirection = Camera.main.transform.forward;
-        GameObject thrownWeapon = Instantiate(weaponData.ModelPrefab, spawnPoint.position + offset, Quaternion.Euler(spawnPoint.rotation.eulerAngles + offsetRotation));
+        GameObject thrownWeapon = Instantiate(weaponData.ModelPrefab, spawnPoint.position+offset, Quaternion.Euler(spawnPoint.rotation.eulerAngles + offsetRotation));
         thrownWeapon.GetComponent<Animator>().enabled = false; // Animasyonu devre dışı bırak
         Rigidbody rb = thrownWeapon.GetComponent<Rigidbody>();
 

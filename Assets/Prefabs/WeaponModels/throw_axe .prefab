@@ -64,6 +64,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f8b777311aa90844d96644f51681465f, type: 2}
+    - target: {fileID: -7511558181221131132, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b4a0f2d40954c9347b8dd7a5b2466db1, type: 2}
+    - target: {fileID: -7511558181221131132, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b3e7e7e3ca9efc045b8f0cd8e7a4acf8, type: 2}
     - target: {fileID: 919132149155446097, guid: e1a559b43017c9a47a0afaf31662aa83, type: 3}
       propertyPath: m_Name
       value: 'throw_axe '
@@ -279,6 +291,7 @@ MonoBehaviour:
   throwForce: 25
   rotationSpeed: 1000
   lifetime: 5
-  offset: {x: 0, y: 0, z: 1}
+  offset: {x: 0, y: 0.2, z: 0}
+  offsetRotation: {x: 0, y: 0, z: 0}
   spawnPoint: {fileID: 0}
   weaponData: {fileID: 11400000, guid: 46eec45f6c311724a8a323887ae0bbff, type: 2}
