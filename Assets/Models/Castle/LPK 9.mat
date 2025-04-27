@@ -30,13 +30,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _OutlineWidth: 0.313
-    - _RimStep: 0.386
-    - _RimStepSmooth: 0.82
-    - _ShadowStep: 0.335
-    - _ShadowStepSmooth: 0.016
-    - _SpecularStep: 0
-    - _SpecularStepSmooth: 0.037
+    - _OutlineWidth: 0.335
+    - _RimStep: 0.42
+    - _RimStepSmooth: 0.318
+    - _ShadowStep: 0.551
+    - _ShadowStepSmooth: 0.142
+    - _SpecularStep: 0.034
+    - _SpecularStepSmooth: 0.068
     m_Colors:
     - _BaseColor: {r: 0.36078432, g: 0.22352941, b: 0.1254902, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

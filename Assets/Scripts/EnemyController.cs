@@ -196,7 +196,7 @@ namespace EnemyAssets
             // Trigger attack animation
             if (_hasAnimator)
             {
-                // _animator.SetTrigger(_animIDAttack);
+                _animator.SetTrigger(_animIDAttack);
             }
 
             // Play attack sound
