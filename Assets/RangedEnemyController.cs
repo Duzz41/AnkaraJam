@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 
 namespace EnemyAssets
 {
-    [RequireComponent(typeof(NavMeshAgent))]
+    // NavMesh yerine manuel hareket sistemi kullanan uçan düşman
+    [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Animator))]
     public class RangedEnemyController : MonoBehaviour
     {
@@ -34,17 +34,27 @@ namespace EnemyAssets
         public float AttackCooldown = 2.0f;
         
         [Header("Floating Settings")]
-        [Tooltip("Should the enemy float/hover above ground?")]
-        public bool isFloating = true;
-        
-        [Tooltip("Height above ground to float")]
-        public float hoverHeight = 1.5f;
+        [Tooltip("Base height above ground")]
+        public float baseHeight = 3.0f;
         
         [Tooltip("Hover oscillation speed")]
         public float hoverSpeed = 1.0f;
         
         [Tooltip("Maximum hover oscillation amplitude")]
         public float hoverAmplitude = 0.2f;
+        
+        [Tooltip("Height variation based on distance")]
+        public float heightVariation = 2.0f;
+        
+        [Header("Movement Settings")]
+        [Tooltip("Rotation speed")]
+        public float rotationSpeed = 5.0f;
+        
+        [Tooltip("Smoothness of movement")]
+        public float movementSmoothness = 8.0f;
+        
+        [Tooltip("Height check frequency")]
+        public float heightCheckFrequency = 0.1f;
 
         [Header("Projectile Settings")]
         [Tooltip("Projectile prefab to spawn")]
@@ -60,7 +70,6 @@ namespace EnemyAssets
         public Transform ProjectileSpawnPoint;
 
         [Header("Audio")]
-        public AudioClip[] FootstepAudioClips;
         public AudioClip AttackAudioClip;
         public AudioClip ProjectileAudioClip;
         [Range(0, 1)] public float EnemyAudioVolume = 0.5f;
@@ -70,26 +79,37 @@ namespace EnemyAssets
         private EnemyState currentState = EnemyState.Idle;
 
         // Components
-        private NavMeshAgent _agent;
+        private Rigidbody _rigidbody;
         private Animator _animator;
         private Transform _playerTransform;
         private float _nextAttackTime = 0f;
         private bool _hasAnimator;
 
+        // Movement variables
+        private Vector3 _targetPosition;
+        private Vector3 _currentVelocity;
+        private float _lastHeightCheck;
+        private float _groundHeight;
+
         // Animation variables
-        private float _speed;
         private float _animationBlend;
 
         // Animation IDs
         private int _animIDSpeed;
         private int _animIDMotionSpeed;
         private int _animIDAttack;
+        private int _animIDHit;
 
         private void Awake()
         {
             // Get components
-            _agent = GetComponent<NavMeshAgent>();
+            _rigidbody = GetComponent<Rigidbody>();
             _hasAnimator = TryGetComponent(out _animator);
+
+            // Rigidbody ayarları - yerçekimi ve rotasyon kısıtlamaları
+            _rigidbody.useGravity = false;
+            _rigidbody.isKinematic = false;
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
             // Find player (assuming it has "Player" tag)
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -111,20 +131,14 @@ namespace EnemyAssets
 
         private void Start()
         {
-            // Set NavMeshAgent properties
-            _agent.speed = MoveSpeed;
-            _agent.stoppingDistance = OptimalRange * 0.8f;
-            
-            // Make the enemy float if enabled
-            if (isFloating)
-            {
-                // Set the NavMeshAgent to not be affected by typical y-position constraints
-                _agent.agentTypeID = -1372625422; // Flying agent type ID
-                _agent.baseOffset = hoverHeight;
-            }
-
             // Assign animation IDs
             AssignAnimationIDs();
+            
+            // Initial position setup
+            _targetPosition = transform.position;
+            
+            // Find initial ground height
+            UpdateGroundHeight();
         }
 
         private void AssignAnimationIDs()
@@ -134,6 +148,7 @@ namespace EnemyAssets
                 _animIDSpeed = Animator.StringToHash("Speed");
                 _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
                 _animIDAttack = Animator.StringToHash("Attack");
+                _animIDHit = Animator.StringToHash("Hit");
             }
         }
 
@@ -153,30 +168,26 @@ namespace EnemyAssets
             // Update animator
             UpdateAnimator();
             
-            // Apply floating effect if enabled
-            if (isFloating)
+            // Periodically update ground height
+            if (Time.time - _lastHeightCheck > heightCheckFrequency)
             {
-                ApplyFloatingEffect();
+                UpdateGroundHeight();
+                _lastHeightCheck = Time.time;
             }
         }
-        
-        private void ApplyFloatingEffect()
+
+        private void FixedUpdate()
         {
-            // Raycast down to find ground
+            // Physics-based movement in FixedUpdate
+            UpdateMovement();
+        }
+
+        private void UpdateGroundHeight()
+        {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 50f, ~0, QueryTriggerInteraction.Ignore))
             {
-                // Calculate target height above ground
-                float targetHeight = hit.point.y + hoverHeight;
-                
-                // Add sine wave oscillation for floating effect
-                float oscillation = Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
-                targetHeight += oscillation;
-                
-                // Apply the height
-                Vector3 newPosition = transform.position;
-                newPosition.y = Mathf.Lerp(newPosition.y, targetHeight, Time.deltaTime * 3f);
-                transform.position = newPosition;
+                _groundHeight = hit.point.y;
             }
         }
 
@@ -185,22 +196,18 @@ namespace EnemyAssets
             // Change state based on distance to player
             if (distanceToPlayer <= AttackRange && distanceToPlayer >= OptimalRange * 0.7f)
             {
-                // In good shooting range
                 currentState = EnemyState.Attacking;
             }
             else if (distanceToPlayer < OptimalRange * 0.7f)
             {
-                // Too close to player, back up
                 currentState = EnemyState.Repositioning;
             }
             else if (distanceToPlayer <= ChaseRange)
             {
-                // Player in sight but out of range, chase
                 currentState = EnemyState.Chasing;
             }
             else
             {
-                // Player out of sight
                 currentState = EnemyState.Idle;
             }
         }
@@ -210,58 +217,51 @@ namespace EnemyAssets
             switch (currentState)
             {
                 case EnemyState.Idle:
-                    // In idle state, enemy doesn't move
-                    _agent.isStopped = true;
-                    // Set the idle animation
+                    // Hover in place
+                    _targetPosition = new Vector3(
+                        transform.position.x,
+                        CalculateHoverHeight(transform.position),
+                        transform.position.z
+                    );
                     SetMovementAnimation(0);
                     break;
 
                 case EnemyState.Chasing:
-                    // In chasing state, enemy moves toward player to get in attack range
-                    _agent.isStopped = false;
-                    _agent.SetDestination(_playerTransform.position);
-
-                    // Set the run animation
-                    bool isSprinting = true; // Always sprint when chasing
-                    SetMovementAnimation(isSprinting ? SprintSpeed : MoveSpeed);
-
-                    // Rotate toward movement direction
-                    if (_agent.velocity.magnitude > 0.1f)
-                    {
-                        transform.rotation = Quaternion.Slerp(
-                            transform.rotation,
-                            Quaternion.LookRotation(_agent.velocity.normalized),
-                            Time.deltaTime * 5f);
-                    }
+                    // Chase player
+                    Vector3 targetChasePosition = _playerTransform.position;
+                    targetChasePosition.y = CalculateHoverHeight(_playerTransform.position);
+                    
+                    // Move towards player
+                    _targetPosition = targetChasePosition;
+                    SetMovementAnimation(SprintSpeed);
+                    
+                    // Look at player
+                    LookAtTarget(_playerTransform.position);
                     break;
 
                 case EnemyState.Repositioning:
-                    // Enemy is too close, back away from player
-                    _agent.isStopped = false;
-                    
-                    // Calculate a position at optimal range
+                    // Back away from player
                     Vector3 directionFromPlayer = (transform.position - _playerTransform.position).normalized;
-                    Vector3 targetPosition = _playerTransform.position + directionFromPlayer * OptimalRange;
+                    Vector3 repoPosition = _playerTransform.position + directionFromPlayer * OptimalRange;
+                    repoPosition.y = CalculateHoverHeight(repoPosition);
                     
-                    // Move to that position
-                    _agent.SetDestination(targetPosition);
-                    
-                    // Set movement animation
+                    _targetPosition = repoPosition;
                     SetMovementAnimation(MoveSpeed);
-
+                    
                     // Still look at player while backing up
-                    LookAtPlayer();
+                    LookAtTarget(_playerTransform.position);
                     break;
 
                 case EnemyState.Attacking:
-                    // In attacking state, enemy stops and shoots
-                    _agent.isStopped = true;
-
-                    // Set the idle animation (minimal movement when attacking)
+                    // Hover in place and attack
+                    _targetPosition = new Vector3(
+                        transform.position.x,
+                        CalculateHoverHeight(transform.position),
+                        transform.position.z
+                    );
+                    
                     SetMovementAnimation(0);
-
-                    // Look at player
-                    LookAtPlayer();
+                    LookAtTarget(_playerTransform.position);
 
                     // Attack if cooldown allows
                     if (Time.time >= _nextAttackTime)
@@ -273,22 +273,59 @@ namespace EnemyAssets
             }
         }
 
-        private void LookAtPlayer()
+        private float CalculateHoverHeight(Vector3 position)
         {
-            Vector3 direction = (_playerTransform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            // Calculate hover height with oscillation
+            float oscillation = Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
+            
+            // Add some height variation based on distance to player
+            float distanceToPlayer = Vector3.Distance(position, _playerTransform.position);
+            float heightAdjustment = Mathf.Clamp(distanceToPlayer / ChaseRange, 0, 1) * heightVariation;
+            
+            return _groundHeight + baseHeight + oscillation + heightAdjustment;
+        }
+
+        private void UpdateMovement()
+        {
+            // Smooth movement towards target position
+            Vector3 targetVelocity = (_targetPosition - transform.position) * movementSmoothness;
+            
+            // Clamp velocity to max speed
+            if (targetVelocity.magnitude > SprintSpeed)
+            {
+                targetVelocity = targetVelocity.normalized * SprintSpeed;
+            }
+            
+            // Apply velocity
+            _rigidbody.linearVelocity = Vector3.SmoothDamp(
+                _rigidbody.linearVelocity,
+                targetVelocity,
+                ref _currentVelocity,
+                1f / movementSmoothness
+            );
+        }
+
+        private void LookAtTarget(Vector3 target)
+        {
+            Vector3 direction = (target - transform.position).normalized;
+            direction.y = 0; // Only rotate on the horizontal plane
+            
+            if (direction.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    Time.deltaTime * rotationSpeed
+                );
+            }
         }
 
         private void SetMovementAnimation(float targetSpeed)
         {
-            // Get current speed for smooth transition
-            float currentSpeed = _animationBlend;
-
-            // Smooth animation blending to target speed
-            _animationBlend = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * SpeedChangeRate);
-
-            // Round to avoid small floating-point errors
+            // Smooth animation blending
+            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+            
             if (_animationBlend < 0.01f) _animationBlend = 0f;
         }
 
@@ -297,10 +334,10 @@ namespace EnemyAssets
             // Trigger attack animation
             if (_hasAnimator)
             {
-                _animator.SetTrigger(_animIDAttack);
+               // _animator.SetTrigger(_animIDAttack);
                 
                 // Play a more dramatic attack animation sequence
-                StartCoroutine(PlayAttackAnimationSequence());
+//                StartCoroutine(PlayAttackAnimationSequence());
             }
 
             // Play attack sound
@@ -318,80 +355,58 @@ namespace EnemyAssets
 
         private IEnumerator PlayAttackAnimationSequence()
         {
-            // Optional: Stop movement during attack animation
-            float originalSpeed = _agent.speed;
-            _agent.speed = 0;
-            
-            // Add dramatic pre-attack pose (if you have a parameter in your animator)
+            // Dramatic attack animation
             if (_hasAnimator)
             {
                 _animator.SetBool("IsCharging", true);
             }
             
-            // Optional: Make the enemy rise higher during attack
+            // Rise up during attack
             float chargeTime = 0.5f;
             Vector3 startPos = transform.position;
             Vector3 chargePos = transform.position + new Vector3(0, 0.5f, 0);
             
-            // Rise up animation
             float elapsed = 0;
             while (elapsed < chargeTime)
             {
-                transform.position = Vector3.Lerp(startPos, chargePos, elapsed / chargeTime);
-                elapsed += Time.deltaTime;
-                yield return null;
+                Vector3 newPosition = Vector3.Lerp(startPos, chargePos, elapsed / chargeTime);
+                _rigidbody.MovePosition(newPosition);
+                elapsed += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
             }
             
-            // Hold the pose for a moment
             yield return new WaitForSeconds(0.2f);
             
-            // End the charging state
             if (_hasAnimator)
             {
                 _animator.SetBool("IsCharging", false);
             }
             
-            // Wait for projectile to actually spawn
-            yield return new WaitForSeconds(0.3f);
-            
-            // Lower back down animation
+            // Lower back down
             elapsed = 0;
             while (elapsed < chargeTime * 0.7f)
             {
-                transform.position = Vector3.Lerp(chargePos, startPos, elapsed / (chargeTime * 0.7f));
-                elapsed += Time.deltaTime;
-                yield return null;
+                Vector3 newPosition = Vector3.Lerp(chargePos, startPos, elapsed / (chargeTime * 0.7f));
+                _rigidbody.MovePosition(newPosition);
+                elapsed += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
             }
-            
-            // Resume normal movement
-            _agent.speed = originalSpeed;
         }
 
         private IEnumerator DelayedProjectileSpawn()
         {
-            // Wait for the animation to reach the point where projectile should spawn
             yield return new WaitForSeconds(0.7f);
             
-            // Calculate direction to player, taking into account potential movement
             Vector3 targetPosition = _playerTransform.position;
-            
-            // Aim slightly higher for better arc
             targetPosition.y += 1.0f;
             
-            // Calculate direction
             Vector3 shootDirection = (targetPosition - ProjectileSpawnPoint.position).normalized;
             
-            // Add a visual effect at the spawn point (optional)
-            // If you have a charge effect prefab, instantiate it here
-            
-            // Spawn projectile
             GameObject projectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.LookRotation(shootDirection));
             
-            // Add projectile component
             EnemyProjectile enemyProjectile = projectile.AddComponent<EnemyProjectile>();
             enemyProjectile.Initialize(shootDirection, ProjectileSpeed, AttackDamage, ProjectileLifetime);
             
-            // Play projectile sound
             if (ProjectileAudioClip != null)
             {
                 AudioSource.PlayClipAtPoint(ProjectileAudioClip, ProjectileSpawnPoint.position, EnemyAudioVolume);
@@ -402,29 +417,45 @@ namespace EnemyAssets
         {
             if (_hasAnimator)
             {
-                // Update speed parameter (for walking/running animation)
+                // Update speed parameter
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
 
-                // Set motion speed to 1 when moving, 0 when idle
+                // Set motion speed
                 float motionSpeed = (_animationBlend > 0.1f) ? 1f : 0f;
                 _animator.SetFloat(_animIDMotionSpeed, motionSpeed);
             }
         }
 
-        // For footstep sounds - called by animation events
-        private void OnFootstep(AnimationEvent animationEvent)
+        public void TakeDamage()
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            if (_hasAnimator)
             {
-                if (FootstepAudioClips != null && FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.position, EnemyAudioVolume);
-                }
+                _animator.SetTrigger(_animIDHit);
+                StartCoroutine(HitVisualFeedback());
             }
         }
 
-        // Draw gizmos for visualization in editor
+        private IEnumerator HitVisualFeedback()
+        {
+            Vector3 originalPosition = transform.position;
+            
+            float shakeDuration = 0.2f;
+            float shakeIntensity = 0.1f;
+            float elapsed = 0f;
+            
+            while (elapsed < shakeDuration)
+            {
+                Vector3 shakeOffset = Random.insideUnitSphere * shakeIntensity;
+                transform.position = originalPosition + shakeOffset;
+                
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            
+            transform.position = originalPosition;
+        }
+
+        // Draw gizmos for visualization
         private void OnDrawGizmosSelected()
         {
             // Draw attack range
@@ -438,6 +469,10 @@ namespace EnemyAssets
             // Draw chase range
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, ChaseRange);
+            
+            // Draw height line
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 10);
         }
     }
 }
