@@ -49,7 +49,7 @@ public class EnemyProjectile : MonoBehaviour
 
     private System.Collections.IEnumerator GrowProjectile()
     {
-        Vector3 targetScale = Vector3.one;
+        Vector3 targetScale = new Vector3(0.5f, 0.5f, 0.5f);
         float duration = 0.2f;
         float elapsed = 0;
 
@@ -64,7 +64,7 @@ public class EnemyProjectile : MonoBehaviour
 
         transform.localScale = targetScale;
     }
-    
+
     // Use OnTriggerEnter for physics-based collision detection (faster for projectiles)
     private void OnTriggerEnter(Collider other)
     {
@@ -72,13 +72,13 @@ public class EnemyProjectile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            
+
             // If player health component is not on the collider, check the parent
             if (playerHealth == null)
             {
                 playerHealth = other.GetComponentInParent<PlayerHealth>();
             }
-            
+
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
@@ -94,20 +94,20 @@ public class EnemyProjectile : MonoBehaviour
             HandleHitEffect(other.ClosestPoint(transform.position), -direction);
         }
     }
-    
+
     // If OnTriggerEnter doesn't work, fall back to OnCollisionEnter
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-            
+
             // If player health component is not on the collider, check the parent
             if (playerHealth == null)
             {
                 playerHealth = collision.gameObject.GetComponentInParent<PlayerHealth>();
             }
-            
+
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
@@ -125,7 +125,7 @@ public class EnemyProjectile : MonoBehaviour
             HandleHitEffect(contact.point, contact.normal);
         }
     }
-    
+
     private void Update()
     {
         // Move the projectile

@@ -12,11 +12,7 @@ public class ButtonManager : MonoBehaviour
     public void LoadScene(string sceneToLoad)
     {
         SceneManager.LoadScene(sceneToLoad);
-        if(sceneToLoad == "MainMenu")
-        {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
-        }
+        
     }
     public void FindSource()
     {

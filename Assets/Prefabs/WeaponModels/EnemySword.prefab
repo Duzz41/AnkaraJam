@@ -4997,7 +4997,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 0f5eeaad52c433e4982c632056e00cf9, type: 2}
     - target: {fileID: 919132149155446097, guid: 6620ff37469a9d24d8ab3703e9de38b9, type: 3}
       propertyPath: m_Name
-      value: longsword
+      value: EnemySword
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6620ff37469a9d24d8ab3703e9de38b9, type: 3}
       propertyPath: m_IsActive

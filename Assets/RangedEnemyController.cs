@@ -400,7 +400,7 @@ namespace EnemyAssets
             yield return new WaitForSeconds(0.7f);
     
             Vector3 targetPosition = _playerTransform.position;
-            targetPosition.y += 1.0f; // Player'ın göğüs hizasına hedefle
+            targetPosition.y += 2.5f; // Player'ın göğüs hizasına hedefle
     
             Vector3 shootDirection = (targetPosition - ProjectileSpawnPoint.position).normalized;
     

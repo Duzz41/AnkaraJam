@@ -96,6 +96,8 @@ public class PlayerHealth : MonoBehaviour
         // Implement death behavior
         Debug.Log("Player died!");
         SceneManager.LoadScene("MainMenu");
+        Cursor.visible=true;
+        Cursor.lockState=CursorLockMode.Confined;
         // You can add more death behavior here:
         // - Play death animation
         // - Disable player controls
