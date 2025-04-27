@@ -30,6 +30,16 @@ namespace EnemyAssets
         [Tooltip("Time between attacks")]
         public float AttackCooldown = 2.0f;
 
+        [Header("Attack Area Settings")]
+        [Tooltip("Width of the attack area")]
+        public float AttackAreaWidth = 1.0f;
+        
+        [Tooltip("Height of the attack area")]
+        public float AttackAreaHeight = 1.5f;
+        
+        [Tooltip("Distance from enemy to attack area center")]
+        public float AttackAreaDistance = 1.0f;
+
         [Header("Weapon")]
         [Tooltip("Sword model that enemy holds")]
         public GameObject swordModel;
@@ -225,15 +235,32 @@ namespace EnemyAssets
                 AudioSource.PlayClipAtPoint(AttackAudioClip, transform.position, EnemyAudioVolume);
             }
 
-            // Immediately check for player in range and deal damage without delay
-            if (_playerTransform != null &&
-                Vector3.Distance(transform.position, _playerTransform.position) <= AttackRange)
+            // Perform area attack in front of enemy
+            PerformAreaAttack();
+        }
+
+        private void PerformAreaAttack()
+        {
+            // Calculate attack area center point
+            Vector3 attackCenter = transform.position + transform.forward * AttackAreaDistance;
+            attackCenter.y += AttackAreaHeight / 2; // Adjust height to center
+
+            // Create box area for attack
+            Vector3 halfExtents = new Vector3(AttackAreaWidth / 2, AttackAreaHeight / 2, AttackAreaDistance / 2);
+            
+            // Check for colliders in the attack area
+            Collider[] hitColliders = Physics.OverlapBox(attackCenter, halfExtents, transform.rotation);
+
+            foreach (Collider hitCollider in hitColliders)
             {
-                PlayerHealth playerHealth = _playerTransform.GetComponent<PlayerHealth>();
-                if (playerHealth != null)
+                if (hitCollider.CompareTag("Player"))
                 {
-                    playerHealth.TakeDamage(AttackDamage);
-                    Debug.Log($"Enemy hit player with sword! Damage: {AttackDamage}");
+                    PlayerHealth playerHealth = hitCollider.GetComponent<PlayerHealth>();
+                    if (playerHealth != null)
+                    {
+                        playerHealth.TakeDamage(AttackDamage);
+                        Debug.Log($"Enemy hit player with sword! Damage: {AttackDamage}");
+                    }
                 }
             }
         }
@@ -291,6 +318,16 @@ namespace EnemyAssets
             // Draw chase range
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, ChaseRange);
+
+            // Draw attack area
+            Gizmos.color = Color.magenta;
+            Vector3 attackCenter = transform.position + transform.forward * AttackAreaDistance;
+            attackCenter.y += AttackAreaHeight / 2;
+            Vector3 size = new Vector3(AttackAreaWidth, AttackAreaHeight, AttackAreaDistance);
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(attackCenter, transform.rotation, Vector3.one);
+            Gizmos.matrix = rotationMatrix;
+            Gizmos.DrawWireCube(Vector3.zero, size);
+            Gizmos.matrix = Matrix4x4.identity;
         }
     }
 }
