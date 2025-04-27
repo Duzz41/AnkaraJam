@@ -2251,7 +2251,8 @@ GameObject:
   - component: {fileID: 8505588369606170068}
   - component: {fileID: 5408783398534076659}
   - component: {fileID: 2975635749799086970}
-  m_Layer: 8
+  - component: {fileID: 2543158070034854204}
+  m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2367,6 +2368,29 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!136 &2543158070034854204
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8448738880176835451}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2.29
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.45, z: 0}
 --- !u!1 &9200361048469649813
 GameObject:
   m_ObjectHideFlags: 0

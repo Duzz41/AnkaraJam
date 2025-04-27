@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 7
   usageType: 0
   Name: Bat
-  Damage: 4
+  Damage: 35
   AttackCooldown: 0.4
   AttackRange: 0
   isAttacking: 0
@@ -32,3 +32,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
   projectileSpeed: 20
+  shakeDuration: 0.4
+  shakeAmplitude: 1
+  shakeFrequency: 1

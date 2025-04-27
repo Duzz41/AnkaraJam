@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 3
   usageType: 2
   Name: Throw Axe
-  Damage: 5
+  Damage: 40
   AttackCooldown: 0.9
   AttackRange: 2
   isAttacking: 0
@@ -32,3 +32,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
   projectileSpeed: 20
+  shakeDuration: 1.5
+  shakeAmplitude: 1
+  shakeFrequency: 1

@@ -32,3 +32,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}
   projectileSpeed: 20
+  shakeDuration: 0.2
+  shakeAmplitude: 1
+  shakeFrequency: 1

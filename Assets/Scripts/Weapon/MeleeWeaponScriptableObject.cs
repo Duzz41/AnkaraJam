@@ -41,8 +41,6 @@ namespace DotGalacticos.Guns
         public float shakeAmplitude = 1f; // Shake genliği
         public float shakeFrequency = 2f; // Shake frekansı
 
-        private CinemachineBasicMultiChannelPerlin perlin; // Cinemachine bileşeni
-
         private MonoBehaviour ActiveMonoBehaviour;
 
         public void Spawn(
@@ -88,7 +86,7 @@ namespace DotGalacticos.Guns
                 {
                     Debug.LogWarning("Weapon animator is not assigned.");
                 }
-
+                
                 if (usageType == GunUseType.Melee)
                 {
                     lastAttackTime = Time.time; // Saldırı zamanını güncelle
@@ -106,6 +104,7 @@ namespace DotGalacticos.Guns
                 Debug.Log($"{name} sadece {AttackCooldown} saniye aralıkla saldırabilir.");
             }
         }
+        
         private IEnumerator ResetAttackState()
         {
             // AttackCooldown süresi boyunca bekle
@@ -152,10 +151,12 @@ namespace DotGalacticos.Guns
         {
             MeleeWeaponScriptableObject config = CreateInstance<MeleeWeaponScriptableObject>();
             config.Type = Type;
+            config.shakeAmplitude = shakeAmplitude;
             config.usageType = usageType;
-
+            config.shakeDuration = shakeDuration;
             config.lifetime = lifetime;
             config.rotationSpeed = rotationSpeed;
+            config.shakeFrequency = shakeFrequency;
             config.Name = Name;
             config.name = name;
             config.throwForce = throwForce;
