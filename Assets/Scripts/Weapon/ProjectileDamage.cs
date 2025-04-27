@@ -5,11 +5,14 @@ public class ProjectileDamage : MonoBehaviour
     [SerializeField] private int maxDamage = 100; // Maksimum hasar
     [SerializeField] private int minDamage = 10; // Minimum hasar
     [SerializeField] private float explosionRadius = 5f; // Patlama yarıçapı
+    [SerializeField] private AudioClip explosionSound; // Patlama sesi
+    private AudioSource audioSource;
 
     void OnCollisionEnter(Collision collision)
     {
         Explode();
         Destroy(gameObject);
+        PlayExplosionSound();
     }
 
     void Explode()
@@ -32,8 +35,15 @@ public class ProjectileDamage : MonoBehaviour
                 }
             }
         }
-    }
 
+    }
+    public void PlayExplosionSound()
+    {
+        if (explosionSound != null)
+        {
+            audioSource.PlayOneShot(explosionSound);
+        }
+    }
     int CalculateDamage(float distance)
     {
         // Hasar hesaplama
