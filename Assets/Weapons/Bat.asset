@@ -26,6 +26,11 @@ MonoBehaviour:
   SpawnRotation: {x: 0, y: 0, z: 0}
   AttackSounds:
   - {fileID: 8300000, guid: 0252c1ae19758a045aad7f4128631e12, type: 3}
+  - {fileID: 8300000, guid: 8c5b894f63dc0874aa4fa05058ed04bd, type: 3}
+  - {fileID: 8300000, guid: 6799878a193e053498a0fa2e8130f127, type: 3}
+  - {fileID: 8300000, guid: 8b97186baed2194498cb967fdda03b8e, type: 3}
+  - {fileID: 8300000, guid: 2cb2aa916d6601a43b6129d32993287a, type: 3}
+  - {fileID: 8300000, guid: 60d2fde092a5f1f4d94cdfc36bdbb7cf, type: 3}
   HitSounds:
   - {fileID: 8300000, guid: 7cf61e0c51777c542ac593e1bfbb0c45, type: 3}
   ModelPrefab: {fileID: 7413526444957407877, guid: 207e9d4dc964f3f4eab74bada2048f93, type: 3}
