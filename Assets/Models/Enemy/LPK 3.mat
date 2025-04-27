@@ -30,7 +30,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _OutlineWidth: 0.125
+    - _OutlineWidth: 0.003
     - _RimStep: 0.654
     - _RimStepSmooth: 0.489
     - _ShadowStep: 0.261
