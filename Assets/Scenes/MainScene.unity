@@ -132,9 +132,17 @@ PrefabInstance:
       value: WaveSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 434748812}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
       propertyPath: meleeEnemyPrefab
       value: 
       objectReference: {fileID: 4700924860923686725, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
       propertyPath: rangedEnemyPrefab
       value: 
@@ -200,6 +208,26 @@ PrefabInstance:
       value: Three
       objectReference: {fileID: 0}
     - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[3].waveName
+      value: Four
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[4].waveName
+      value: Five
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[5].waveName
+      value: Three
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[6].waveName
+      value: Three
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[7].waveName
+      value: Three
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
       propertyPath: 'rangedSpawnPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 1589035955}
@@ -256,6 +284,70 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[3].totalEnemies
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[3].waveInterval
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[4].totalEnemies
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[4].waveInterval
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[5].totalEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[5].waveInterval
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[6].totalEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[6].waveInterval
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[7].totalEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[7].waveInterval
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[2].spawnInterval
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[3].spawnInterval
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[4].spawnInterval
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[5].spawnInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[6].spawnInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[7].spawnInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
       propertyPath: waves.Array.data[0].meleeEnemyCount
       value: 2
       objectReference: {fileID: 0}
@@ -268,6 +360,26 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[3].meleeEnemyCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[4].meleeEnemyCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[5].meleeEnemyCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[6].meleeEnemyCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[7].meleeEnemyCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
       propertyPath: waves.Array.data[0].rangedEnemyCount
       value: 1
       objectReference: {fileID: 0}
@@ -277,6 +389,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
       propertyPath: waves.Array.data[2].rangedEnemyCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[3].rangedEnemyCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[4].rangedEnemyCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[5].rangedEnemyCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[6].rangedEnemyCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041189887225680471, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
+      propertyPath: waves.Array.data[7].rangedEnemyCount
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6083814073725559082, guid: ceac1d61250df884c8ae3c52cd920361, type: 3}
@@ -1787,6 +1919,20 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  cameraShake: {fileID: 0}
+--- !u!114 &434748822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434748801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0783278405ee81c4a9ee77961caf4b9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perlin: {fileID: 0}
 --- !u!1 &456286033
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,11 +2181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8762286024517199035, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_AmplitudeGain
-      value: -5.38842e-10
+      value: 0.003053331
       objectReference: {fileID: 0}
     - target: {fileID: 8762286024517199035, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_FrequencyGain
-      value: 2.69421e-10
+      value: 0.006106662
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6798,7 +6944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9
+      value: -7.9000015
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6806,7 +6952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.98
+      value: -7.9800005
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6814,15 +6960,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6850,7 +6996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8581301246921457491, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: gunType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9046013182678923328, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_Layer
@@ -6866,6 +7012,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8056673088082205806, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       insertIndex: -1
       addedObject: {fileID: 434748812}
+    - targetCorrespondingSourceObject: {fileID: 8056673088082205806, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 434748822}
   m_SourcePrefab: {fileID: 100100000, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
 --- !u!1001 &8209686459746765437
 PrefabInstance:
@@ -6930,8 +7079,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 208619490}
   - {fileID: 495541917}
-  - {fileID: 1034642261}
   - {fileID: 7221915081710628431}
+  - {fileID: 1034642261}
   - {fileID: 1155035042}
   - {fileID: 1296455691}
   - {fileID: 1379097362}

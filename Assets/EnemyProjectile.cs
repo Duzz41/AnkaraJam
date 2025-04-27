@@ -26,6 +26,7 @@ public class EnemyProjectile : MonoBehaviour
 
     [Tooltip("Rotation speed")]
     public Vector3 rotationSpeed = new Vector3(0, 180f, 90f);
+    CameraShake cameraShake;
 
     // Initialize the projectile
     public void Initialize(Vector3 direction, float speed, int damage, float lifetime)
@@ -72,16 +73,18 @@ public class EnemyProjectile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-
+            cameraShake = other.GetComponent<CameraShake>();
             // If player health component is not on the collider, check the parent
             if (playerHealth == null)
             {
                 playerHealth = other.GetComponentInParent<PlayerHealth>();
+
             }
 
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
+               // cameraShake.ShakeCamera();
                 Debug.Log($"Projectile hit player for {damage} damage!");
             }
 
@@ -101,7 +104,7 @@ public class EnemyProjectile : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-
+            cameraShake = collision.gameObject.GetComponent<CameraShake>();
             // If player health component is not on the collider, check the parent
             if (playerHealth == null)
             {
@@ -111,6 +114,7 @@ public class EnemyProjectile : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
+                //cameraShake.ShakeCamera();
                 Debug.Log($"Projectile hit player for {damage} damage!");
             }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI; // For UI elements
 using UnityEngine.Events;
 using UnityEngine.SceneManagement; // For events
+using Cinemachine; // Cinemachine kütüphanesini ekleyin
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -28,10 +29,12 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Event triggered when player dies")]
     public UnityEvent onDeath;
     // Private variables
+    public CameraShake cameraShake;
     private bool _isInvincible = false;
 
     private void Start()
     {
+        cameraShake = GetComponent<CameraShake>();
         // Set initial health
         currentHealth = maxHealth;
 
@@ -41,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
         }
+
     }
 
 
@@ -52,7 +56,6 @@ public class PlayerHealth : MonoBehaviour
 
         // Apply damage
         currentHealth -= damage;
-
         // Trigger damage event
         onDamage?.Invoke();
 
@@ -96,8 +99,8 @@ public class PlayerHealth : MonoBehaviour
         // Implement death behavior
         Debug.Log("Player died!");
         SceneManager.LoadScene("MainMenu");
-        Cursor.visible=true;
-        Cursor.lockState=CursorLockMode.Confined;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         // You can add more death behavior here:
         // - Play death animation
         // - Disable player controls

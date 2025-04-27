@@ -33,10 +33,10 @@ namespace EnemyAssets
         [Header("Attack Area Settings")]
         [Tooltip("Width of the attack area")]
         public float AttackAreaWidth = 1.0f;
-        
+
         [Tooltip("Height of the attack area")]
         public float AttackAreaHeight = 1.5f;
-        
+
         [Tooltip("Distance from enemy to attack area center")]
         public float AttackAreaDistance = 1.0f;
 
@@ -77,6 +77,7 @@ namespace EnemyAssets
         private int _animIDSpeed;
         private int _animIDMotionSpeed;
         private int _animIDAttack;
+        CameraShake cameraShake;
 
         private void Awake()
         {
@@ -89,6 +90,7 @@ namespace EnemyAssets
             if (player != null)
             {
                 _playerTransform = player.transform;
+                cameraShake = player.GetComponent<CameraShake>();
             }
             else
             {
@@ -247,7 +249,7 @@ namespace EnemyAssets
 
             // Create box area for attack
             Vector3 halfExtents = new Vector3(AttackAreaWidth / 2, AttackAreaHeight / 2, AttackAreaDistance / 2);
-            
+
             // Check for colliders in the attack area
             Collider[] hitColliders = Physics.OverlapBox(attackCenter, halfExtents, transform.rotation);
 
@@ -259,6 +261,7 @@ namespace EnemyAssets
                     if (playerHealth != null)
                     {
                         playerHealth.TakeDamage(AttackDamage);
+                        //cameraShake.ShakeCamera();
                         Debug.Log($"Enemy hit player with sword! Damage: {AttackDamage}");
                     }
                 }
@@ -283,8 +286,8 @@ namespace EnemyAssets
             if (swordModel != null && swordParent != null)
             {
                 // Instantiate the sword and parent it
-                GameObject sword = Instantiate(swordModel,swordParent.transform);
-                
+                GameObject sword = Instantiate(swordModel, swordParent.transform);
+
                 // Set local position and rotation
                 sword.transform.localPosition = swordLocalPosition;
                 sword.transform.localRotation = Quaternion.Euler(swordLocalRotation);
