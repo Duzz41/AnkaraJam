@@ -25,9 +25,9 @@ MonoBehaviour:
   SpawnPosition: {x: 0, y: 0, z: 0}
   SpawnRotation: {x: 0, y: 0, z: 0}
   AttackSounds:
-  - {fileID: 8300000, guid: 7cf61e0c51777c542ac593e1bfbb0c45, type: 3}
+  - {fileID: 8300000, guid: c8b89d146d2dba540a83a4b9e4c3b396, type: 3}
   HitSounds:
-  - {fileID: 8300000, guid: 8c5b894f63dc0874aa4fa05058ed04bd, type: 3}
+  - {fileID: 8300000, guid: 20f37901bbbf3a44fb8c5feb98da20c3, type: 3}
   ModelPrefab: {fileID: 8937179507308257749, guid: 31e712f56e162e24f9e3b0270bc859cf, type: 3}
   projectilePrefab: {fileID: 0}
   modelAudioSource: {fileID: 0}

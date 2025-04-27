@@ -153,7 +153,7 @@ MonoBehaviour:
   maxDamage: 75
   minDamage: 20
   explosionRadius: 10
-  explosionSound: {fileID: 8300000, guid: 60d2fde092a5f1f4d94cdfc36bdbb7cf, type: 3}
+  explosionSound: {fileID: 8300000, guid: 20f37901bbbf3a44fb8c5feb98da20c3, type: 3}
 --- !u!82 &7497670774614720043
 AudioSource:
   m_ObjectHideFlags: 0
@@ -164,8 +164,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6799878a193e053498a0fa2e8130f127, type: 3}
-  m_Resource: {fileID: 8300000, guid: 6799878a193e053498a0fa2e8130f127, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 20f37901bbbf3a44fb8c5feb98da20c3, type: 3}
+  m_Resource: {fileID: 8300000, guid: 20f37901bbbf3a44fb8c5feb98da20c3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
