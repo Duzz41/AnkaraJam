@@ -76,8 +76,8 @@ namespace DotGalacticos.Guns
                 }
 
                 // Son durumda sıfır yap
-                perlin.m_AmplitudeGain = 0;
-                perlin.m_FrequencyGain = 0;
+                //perlin.m_AmplitudeGain = 0;
+                //perlin.m_FrequencyGain = 0;
             }
         }
     }
