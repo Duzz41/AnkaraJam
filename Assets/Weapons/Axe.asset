@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 1
   usageType: 0
   Name: Axe
-  Damage: 5
+  Damage: 25
   AttackCooldown: 0.6
   AttackRange: 3
   isAttacking: 0

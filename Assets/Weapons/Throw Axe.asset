@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 3
   usageType: 2
   Name: Throw Axe
-  Damage: 5
+  Damage: 20
   AttackCooldown: 0.9
   AttackRange: 2
   isAttacking: 0
