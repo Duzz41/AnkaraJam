@@ -86,6 +86,10 @@ public class EnhancedWaveSpawner : MonoBehaviour
     private int _enemiesRemainingAlive = 0;
     private Coroutine _spawnCoroutine;
     private bool _isTransitioning = false; // Yeni flag
+    
+    [Header("Player Reference")]
+    [Tooltip("Reference to the player's health component")]
+    public PlayerHealth playerHealth;
 
     // UI display properties
     public int CurrentWave => currentWaveIndex + 1;  // 1-based for display
@@ -123,6 +127,10 @@ public class EnhancedWaveSpawner : MonoBehaviour
         }
     }
 
+    
+
+
+// Modify the StartNextWave coroutine to heal the player
     private IEnumerator StartNextWave()
     {
         // Trigger wave completed event
@@ -141,10 +149,22 @@ public class EnhancedWaveSpawner : MonoBehaviour
                     yield return new WaitForSeconds(0.5f);
                 }
             }
-            
+
+            // HEAL THE PLAYER BEFORE STARTING THE NEXT WAVE
+            if (playerHealth != null)
+            {
+                // Restore the player to full health
+                playerHealth.Heal(playerHealth.maxHealth);
+                Debug.Log("Player healed to full health for next wave!");
+            }
+            else
+            {
+                Debug.LogWarning("PlayerHealth reference not set! Cannot heal player!");
+            }
+        
             // Wait for the interval between waves
             yield return new WaitForSeconds(waves[currentWaveIndex].waveInterval);
-            
+        
             // Move to next wave
             currentWaveIndex++;
             StartWave();
@@ -154,15 +174,15 @@ public class EnhancedWaveSpawner : MonoBehaviour
             // All waves completed!
             Debug.Log("All waves completed!");
             onAllWavesCompleted?.Invoke();
-            
+        
             // Kazandınız ekranını göster
             ShowWinScreen();
         }
-        
+    
         // Geçiş tamamlandı, yeni wave'e geçilebilir
         _isTransitioning = false;
     }
-
+   
     private void ShowWinScreen()
     {
         // Kazandınız görselini göster
