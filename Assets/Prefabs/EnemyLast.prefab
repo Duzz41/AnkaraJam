@@ -1201,6 +1201,10 @@ MonoBehaviour:
   ChaseRange: 10
   AttackDamage: 10
   AttackCooldown: 2
+  swordModel: {fileID: 8477444515408564577}
+  swordParent: {fileID: 2765745774115514045}
+  swordLocalPosition: {x: 0, y: 0, z: 0}
+  swordLocalRotation: {x: 0, y: 0, z: 0}
   FootstepAudioClips: []
   AttackAudioClip: {fileID: 0}
   EnemyAudioVolume: 0.5
@@ -2627,6 +2631,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 783205951e766b8489f5955705fa7af9, type: 3}
+--- !u!1 &8477444515408564577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5281531863371204320, guid: 783205951e766b8489f5955705fa7af9, type: 3}
+  m_PrefabInstance: {fileID: 4390494928512685953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9146316559205174235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4755824930301779034, guid: 783205951e766b8489f5955705fa7af9, type: 3}
