@@ -28,6 +28,8 @@ public class PauseGame : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
         // Pause menüsünü aç
         //pauseMenu.SetActive(true);
         pauseMenuAnimator.SetTrigger("Open"); // Açılma animasyonunu başlat
@@ -38,7 +40,8 @@ public class PauseGame : MonoBehaviour
         // Zamanı devam ettir
         Time.timeScale = 1f;
         isPaused = false;
-
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         // Pause menüsünü kapat
         pauseMenuAnimator.SetTrigger("Close"); // Kapatma animasyonunu başlat
         StartCoroutine(DisableMenuAfterAnimation());

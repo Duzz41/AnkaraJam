@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
-
+    public GameObject pauseMenu; // Pause menüsünü tutan GameObject
+    public Animator pauseMenuAnimator; // Pause menüsünün Animator bileşeni
     // Bu metot, belirtilen sahneye geçiş yapar
     public void LoadScene(string sceneToLoad)
     {
@@ -13,6 +14,10 @@ public class ButtonManager : MonoBehaviour
     public void FindSource()
     {
         SoundManager.instance.FindAllAudioSources();
+    }
+    public void Options(string eventName)
+    {
+        pauseMenuAnimator.SetTrigger(eventName); // Kapatma animasyonunu başlat
     }
     // Bu metot, oyunu kapatır
     public void QuitGame()

@@ -62,8 +62,6 @@ namespace DotGalacticos.Guns
         }
         public void Despawn()
         {
-
-            Debug.Log($"Destroying {ModelPrefab.name}");
             Destroy(ModelPrefab);
 
             modelAudioSource = null;
@@ -73,6 +71,7 @@ namespace DotGalacticos.Guns
         {
             if (Time.time >= lastAttackTime + AttackCooldown)
             {
+                
                 isAttacking = true;
                 AudioClip AttackSound = AttackSounds[Random.Range(0, AttackSounds.Length)];
                 modelAudioSource.PlayOneShot(AttackSound);
@@ -86,7 +85,7 @@ namespace DotGalacticos.Guns
                 {
                     Debug.LogWarning("Weapon animator is not assigned.");
                 }
-                
+
                 if (usageType == GunUseType.Melee)
                 {
                     lastAttackTime = Time.time; // Saldırı zamanını güncelle
@@ -104,7 +103,7 @@ namespace DotGalacticos.Guns
                 Debug.Log($"{name} sadece {AttackCooldown} saniye aralıkla saldırabilir.");
             }
         }
-        
+
         private IEnumerator ResetAttackState()
         {
             // AttackCooldown süresi boyunca bekle

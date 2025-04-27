@@ -24,9 +24,13 @@ namespace DotGalacticos.Guns
             // Sol fare tuşuna basıldığında saldır
             if (Input.GetMouseButtonDown(0)) // 0, sol fare tuşunu temsil eder
             {
+
                 Attack();
             }
+
+
             if (GunSelector.ActiveWeapon.isAttacking == true)
+
             {
                 StartCoroutine(ShakeCamera(GunSelector.ActiveWeapon));
             }
@@ -48,13 +52,32 @@ namespace DotGalacticos.Guns
         {
             if (perlin != null)
             {
+                // Başlangıç sarsıntı değerlerini ayarla
                 perlin.m_AmplitudeGain = meleeWeapon.shakeAmplitude;
                 perlin.m_FrequencyGain = meleeWeapon.shakeFrequency;
 
+                // Sarsıntı süresi boyunca bekle
                 yield return new WaitForSeconds(meleeWeapon.shakeDuration);
 
-                perlin.m_AmplitudeGain = 0; // Shake'i durdur
-                perlin.m_FrequencyGain = 0; // Shake'i durdur
+                // Sarsıntıyı yavaşça azalt
+                float elapsedTime = 0f;
+                float shakeDuration = meleeWeapon.shakeDuration; // Sarsıntıyı azaltma süresi
+                float startAmplitude = perlin.m_AmplitudeGain;
+                float startFrequency = perlin.m_FrequencyGain;
+
+                while (elapsedTime < shakeDuration)
+                {
+                    float t = elapsedTime / shakeDuration; // 0 ile 1 arasında bir oran
+                    perlin.m_AmplitudeGain = Mathf.Lerp(startAmplitude, 0, t); // Amplitüdü yavaşça azalt
+                    perlin.m_FrequencyGain = Mathf.Lerp(startFrequency, 0, t); // Frekansı yavaşça azalt
+
+                    elapsedTime += Time.deltaTime; // Geçen süreyi güncelle
+                    yield return null; // Bir sonraki frame'e geç
+                }
+
+                // Son durumda sıfır yap
+                perlin.m_AmplitudeGain = 0;
+                perlin.m_FrequencyGain = 0;
             }
         }
     }
