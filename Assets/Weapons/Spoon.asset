@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 2
   usageType: 0
   Name: Spoon
-  Damage: 4
+  Damage: 5
   AttackCooldown: 0.2
   AttackRange: 0.5
   isAttacking: 0

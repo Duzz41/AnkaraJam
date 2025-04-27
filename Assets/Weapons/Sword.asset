@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 0
   usageType: 0
   Name: Sword
-  Damage: 20
+  Damage: 30
   AttackCooldown: 0.6
   AttackRange: 4
   isAttacking: 0
