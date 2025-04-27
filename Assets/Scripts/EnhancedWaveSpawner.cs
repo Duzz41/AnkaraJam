@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement; // Ana menüye dönmek için gerekli
+using UnityEngine.UI; // Image için gerekli
 
 public class EnhancedWaveSpawner : MonoBehaviour
 {
@@ -55,6 +57,13 @@ public class EnhancedWaveSpawner : MonoBehaviour
     [Tooltip("Preferred spawn points for ranged enemies (if empty, will use regular spawn points)")]
     public Transform[] rangedSpawnPoints;
 
+    [Header("Win Screen")]
+    [Tooltip("Kazandınız görseli")]
+    public GameObject winScreen;
+    
+    [Tooltip("Ana menü sahne adı")]
+    public string mainMenuSceneName = "MainMenu";
+
     [Header("Events")]
     [Tooltip("Event triggered when a wave starts")]
     public UnityEvent<int> onWaveStart;
@@ -76,6 +85,7 @@ public class EnhancedWaveSpawner : MonoBehaviour
     private int _rangedEnemiesToSpawn = 0;
     private int _enemiesRemainingAlive = 0;
     private Coroutine _spawnCoroutine;
+    private bool _isTransitioning = false; // Yeni flag
 
     // UI display properties
     public int CurrentWave => currentWaveIndex + 1;  // 1-based for display
@@ -86,15 +96,30 @@ public class EnhancedWaveSpawner : MonoBehaviour
     {
         // Start the first wave
         StartWave();
+        
+        // Başlangıçta kazandınız ekranını gizle
+        if (winScreen != null)
+        {
+            winScreen.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        // Check if all enemies in the current wave are defeated AND all enemies are spawned already
-        if (!_isSpawning && _meleeEnemiesToSpawn <= 0 && _rangedEnemiesToSpawn <= 0 && _enemiesRemainingAlive == 0 && currentWaveIndex < waves.Length)
+        // Wave tamamlanma kontrolü: spawn işlemi bitmiş mi, tüm düşmanlar spawn edilmiş mi ve tüm düşmanlar ölmüş mü?
+        if (!_isSpawning && !_isTransitioning && _meleeEnemiesToSpawn == 0 && _rangedEnemiesToSpawn == 0 && _enemiesRemainingAlive == 0 && currentWaveIndex < waves.Length)
         {
-            // Wave completed - start the next wave with a delay
-            StartCoroutine(StartNextWave());
+            // Güvenlik kontrolü: Aktif düşmanları tekrar kontrol et
+            _activeEnemies.RemoveAll(enemy => enemy == null);
+            
+            // Eğer hala aktif düşman yoksa, sonraki dalgaya geç
+            if (_activeEnemies.Count == 0)
+            {
+                // Geçiş başladı, başka geçiş başlatma
+                _isTransitioning = true;
+                // Wave tamamlandı - bir sonraki dalgayı başlat
+                StartCoroutine(StartNextWave());
+            }
         }
     }
 
@@ -106,6 +131,17 @@ public class EnhancedWaveSpawner : MonoBehaviour
         // Check if there are more waves
         if (currentWaveIndex < waves.Length - 1)
         {
+            // Bir sonraki dalgaya geçmeden önce, tüm düşmanların gerçekten öldüğünden emin ol
+            while (_activeEnemies.Count > 0)
+            {
+                _activeEnemies.RemoveAll(enemy => enemy == null);
+                if (_activeEnemies.Count > 0)
+                {
+                    Debug.Log($"Waiting for {_activeEnemies.Count} enemies to be destroyed before next wave...");
+                    yield return new WaitForSeconds(0.5f);
+                }
+            }
+            
             // Wait for the interval between waves
             yield return new WaitForSeconds(waves[currentWaveIndex].waveInterval);
             
@@ -118,6 +154,40 @@ public class EnhancedWaveSpawner : MonoBehaviour
             // All waves completed!
             Debug.Log("All waves completed!");
             onAllWavesCompleted?.Invoke();
+            
+            // Kazandınız ekranını göster
+            ShowWinScreen();
+        }
+        
+        // Geçiş tamamlandı, yeni wave'e geçilebilir
+        _isTransitioning = false;
+    }
+
+    private void ShowWinScreen()
+    {
+        // Kazandınız görselini göster
+        if (winScreen != null)
+        {
+            winScreen.SetActive(true);
+        }
+        
+        // 5 saniye sonra ana menüye dön
+        StartCoroutine(ReturnToMainMenu());
+    }
+    
+    private IEnumerator ReturnToMainMenu()
+    {
+        // 5 saniye bekle
+        yield return new WaitForSeconds(5f);
+        
+        // Ana menüye dön
+        if (!string.IsNullOrEmpty(mainMenuSceneName))
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
+        else
+        {
+            Debug.LogError("Ana menü sahne adı belirtilmemiş!");
         }
     }
 
@@ -203,7 +273,7 @@ public class EnhancedWaveSpawner : MonoBehaviour
             // Add to list
             _activeEnemies.Add(enemy);
             
-            Debug.Log($"Spawned melee enemy in wave {CurrentWave}. Remaining melee: {_meleeEnemiesToSpawn-1}, ranged: {_rangedEnemiesToSpawn}");
+            Debug.Log($"Spawned melee enemy in wave {CurrentWave}. Remaining melee: {_meleeEnemiesToSpawn}, ranged: {_rangedEnemiesToSpawn}");
         }
         else
         {
@@ -233,7 +303,7 @@ public class EnhancedWaveSpawner : MonoBehaviour
             // Add to list
             _activeEnemies.Add(enemy);
             
-            Debug.Log($"Spawned ranged enemy in wave {CurrentWave}. Remaining melee: {_meleeEnemiesToSpawn}, ranged: {_rangedEnemiesToSpawn-1}");
+            Debug.Log($"Spawned ranged enemy in wave {CurrentWave}. Remaining melee: {_meleeEnemiesToSpawn}, ranged: {_rangedEnemiesToSpawn}");
         }
         else
         {
@@ -244,7 +314,10 @@ public class EnhancedWaveSpawner : MonoBehaviour
     public void EnemyDefeated()
     {
         _enemiesRemainingAlive--;
-        Debug.Log($"Enemy defeated! Remaining: {_enemiesRemainingAlive}");
+        Debug.Log($"Enemy defeated! Remaining alive: {_enemiesRemainingAlive}, Active enemies: {_activeEnemies.Count}");
+        
+        // Aktif düşman listesini de güncelle
+        _activeEnemies.RemoveAll(enemy => enemy == null);
     }
 
     // Simple component to track when an enemy is destroyed
@@ -254,7 +327,8 @@ public class EnhancedWaveSpawner : MonoBehaviour
 
         private void OnDestroy()
         {
-            if (waveSpawner != null)
+            // Sahne kapanıyorsa veya uygulama sonlanıyorsa bu işlemi yapma
+            if (waveSpawner != null && !waveSpawner.Equals(null) && gameObject.scene.isLoaded)
             {
                 waveSpawner.EnemyDefeated();
             }

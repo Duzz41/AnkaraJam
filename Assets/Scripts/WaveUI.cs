@@ -64,6 +64,7 @@ public class WaveUI : MonoBehaviour
         if (waveText != null)
         {
             waveText.text = $"WAVE {_enhancedWaveSpawner.CurrentWave}/{_enhancedWaveSpawner.TotalWaves}";
+            
         }
 
         // Show wave banner

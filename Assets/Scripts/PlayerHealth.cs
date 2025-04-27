@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI; // For UI elements
 using UnityEngine.Events;
 using UnityEngine.SceneManagement; // For events
+using Cinemachine; // Cinemachine kütüphanesini ekleyin
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -21,17 +22,28 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Optional: UI Slider for health bar")]
     public Slider healthSlider;
 
+    [Header("Damage Effect")]
+    [Tooltip("UI Image that appears when damaged")]
+    public Image damageImage;
+    
+    [Tooltip("Duration of damage effect fade out")]
+    public float damageEffectDuration = 0.5f;
+
     [Header("Events")]
     [Tooltip("Event triggered when player takes damage")]
     public UnityEvent onDamage;
 
     [Tooltip("Event triggered when player dies")]
     public UnityEvent onDeath;
+    
     // Private variables
+    public CameraShake cameraShake;
     private bool _isInvincible = false;
+    private Coroutine damageEffectCoroutine;
 
     private void Start()
     {
+        cameraShake = GetComponent<CameraShake>();
         // Set initial health
         currentHealth = maxHealth;
 
@@ -41,8 +53,13 @@ public class PlayerHealth : MonoBehaviour
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
         }
-    }
 
+        // Initialize damage image
+        if (damageImage != null)
+        {
+            damageImage.gameObject.SetActive(false);
+        }
+    }
 
     public void TakeDamage(int damage)
     {
@@ -52,7 +69,6 @@ public class PlayerHealth : MonoBehaviour
 
         // Apply damage
         currentHealth -= damage;
-
         // Trigger damage event
         onDamage?.Invoke();
 
@@ -61,6 +77,9 @@ public class PlayerHealth : MonoBehaviour
         {
             healthSlider.value = currentHealth;
         }
+
+        // Show damage effect
+        ShowDamageEffect();
 
         // Check for death
         if (currentHealth <= 0)
@@ -71,6 +90,44 @@ public class PlayerHealth : MonoBehaviour
 
         // Start invincibility
         StartCoroutine(InvincibilityTimer());
+    }
+
+    private void ShowDamageEffect()
+    {
+        if (damageImage == null)
+            return;
+
+        // If there's already a coroutine running, stop it
+        if (damageEffectCoroutine != null)
+        {
+            StopCoroutine(damageEffectCoroutine);
+        }
+
+        damageEffectCoroutine = StartCoroutine(DamageEffectCoroutine());
+    }
+
+    private IEnumerator DamageEffectCoroutine()
+    {
+        // Immediately show the damage image
+        damageImage.gameObject.SetActive(true);
+        Color imageColor = damageImage.color;
+        imageColor.a = 1f; // Full opacity
+        damageImage.color = imageColor;
+
+        float elapsedTime = 0f;
+
+        // Fade out the damage image
+        while (elapsedTime < damageEffectDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / damageEffectDuration);
+            imageColor.a = alpha;
+            damageImage.color = imageColor;
+            yield return null;
+        }
+
+        // Hide the image completely
+        damageImage.gameObject.SetActive(false);
     }
 
     private IEnumerator InvincibilityTimer()
@@ -96,8 +153,8 @@ public class PlayerHealth : MonoBehaviour
         // Implement death behavior
         Debug.Log("Player died!");
         SceneManager.LoadScene("MainMenu");
-        Cursor.visible=true;
-        Cursor.lockState=CursorLockMode.Confined;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         // You can add more death behavior here:
         // - Play death animation
         // - Disable player controls

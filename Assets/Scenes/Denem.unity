@@ -2262,7 +2262,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215541981}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b94472ccc578b0746b2cebfaaaa543c4, type: 3}
   m_Name: 
@@ -4290,9 +4290,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 229510013938120350, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1338850000582901600, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013990623396760246, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776782918320267020, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6008173881519505426, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7051117626799924055, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7243157987553347284, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4334,12 +4354,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8056673088082205794, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056673088082205796, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056673088082205801, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8056673088082205806, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_Name
       value: PlayerCapsule
       objectReference: {fileID: 0}
     - target: {fileID: 8581301246921457491, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: gunType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581301246921457491, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
