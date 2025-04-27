@@ -65,13 +65,49 @@ public class EnemyProjectile : MonoBehaviour
         transform.localScale = targetScale;
     }
     
+    // Use OnTriggerEnter for physics-based collision detection (faster for projectiles)
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if we hit player
+        if (other.CompareTag("Player"))
+        {
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            
+            // If player health component is not on the collider, check the parent
+            if (playerHealth == null)
+            {
+                playerHealth = other.GetComponentInParent<PlayerHealth>();
+            }
+            
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+                Debug.Log($"Projectile hit player for {damage} damage!");
+            }
+
+            // Get hit position and trigger effect
+            HandleHitEffect(other.ClosestPoint(transform.position), -direction);
+        }
+        // Check if we hit environment
+        else if (!other.CompareTag("Enemy") && !other.isTrigger) // Ignore other enemies and trigger colliders
+        {
+            HandleHitEffect(other.ClosestPoint(transform.position), -direction);
+        }
+    }
+    
+    // If OnTriggerEnter doesn't work, fall back to OnCollisionEnter
     private void OnCollisionEnter(Collision collision)
     {
-        // Alternative collision detection
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log($"HOp");
-            PlayerHealth playerHealth = collision.gameObject.GetComponentInParent<PlayerHealth>();
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            
+            // If player health component is not on the collider, check the parent
+            if (playerHealth == null)
+            {
+                playerHealth = collision.gameObject.GetComponentInParent<PlayerHealth>();
+            }
+            
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
@@ -89,6 +125,7 @@ public class EnemyProjectile : MonoBehaviour
             HandleHitEffect(contact.point, contact.normal);
         }
     }
+    
     private void Update()
     {
         // Move the projectile

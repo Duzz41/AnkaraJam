@@ -393,20 +393,40 @@ namespace EnemyAssets
             }
         }
 
+        // RangedEnemyController.cs içindeki DelayedProjectileSpawn metodunu güncelle
+
         private IEnumerator DelayedProjectileSpawn()
         {
             yield return new WaitForSeconds(0.7f);
-            
+    
             Vector3 targetPosition = _playerTransform.position;
-            targetPosition.y += 1.0f;
-            
+            targetPosition.y += 1.0f; // Player'ın göğüs hizasına hedefle
+    
             Vector3 shootDirection = (targetPosition - ProjectileSpawnPoint.position).normalized;
-            
+    
             GameObject projectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.LookRotation(shootDirection));
-            
-            EnemyProjectile enemyProjectile = projectile.AddComponent<EnemyProjectile>();
+    
+            // EnemyProjectile component'i al veya ekle
+            EnemyProjectile enemyProjectile = projectile.GetComponent<EnemyProjectile>();
+            if (enemyProjectile == null)
+            {
+                enemyProjectile = projectile.AddComponent<EnemyProjectile>();
+            }
+    
+            // Projectile'ı initialize et
             enemyProjectile.Initialize(shootDirection, ProjectileSpeed, AttackDamage, ProjectileLifetime);
-            
+    
+            // Ek güvenlik: Collider kontrolü
+            Collider projectileCollider = projectile.GetComponent<Collider>();
+            if (projectileCollider == null)
+            {
+                // Eğer collider yoksa, ekle
+                SphereCollider sphere = projectile.AddComponent<SphereCollider>();
+                sphere.isTrigger = true;
+                sphere.radius = 0.5f; // Boyutu ayarla
+            }
+    
+            // Ses çal
             if (ProjectileAudioClip != null)
             {
                 AudioSource.PlayClipAtPoint(ProjectileAudioClip, ProjectileSpawnPoint.position, EnemyAudioVolume);
