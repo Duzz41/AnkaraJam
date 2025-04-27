@@ -3386,6 +3386,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8389805063211165667, guid: a414d745b863edf4e8850af4083bfb58, type: 3}
+      propertyPath: deathEffect
+      value: 
+      objectReference: {fileID: 7050293897086688161, guid: 3555e6ed211aa2249a0451ac5d871bba, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4309,6 +4313,10 @@ PrefabInstance:
       propertyPath: swordLocalPosition.z
       value: -1.848
       objectReference: {fileID: 0}
+    - target: {fileID: 8789553200594034412, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
+      propertyPath: deathEffect
+      value: 
+      objectReference: {fileID: 7050293897086688161, guid: 3555e6ed211aa2249a0451ac5d871bba, type: 3}
     m_RemovedComponents:
     - {fileID: 4661083495594575626, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}
     - {fileID: 1602491640836095212, guid: 5cdfda3576b97034c9669b28aeaae5fe, type: 3}

@@ -1159,7 +1159,7 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   hitEffect: {fileID: 0}
-  deathEffect: {fileID: 0}
+  deathEffect: {fileID: 4878892847077023082, guid: eb381ebd5e7e7544cbed49398441ff4d, type: 3}
   hitSound: {fileID: 0}
   deathSound: {fileID: 0}
   audioVolume: 0.5

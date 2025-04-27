@@ -89,12 +89,36 @@ public class EnemyHealth : MonoBehaviour
         // Trigger death event
         onDeath?.Invoke();
         
+        // Disable components immediately when dying
+        
+        // Disable NavMeshAgent (if it exists)
+        var navAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (navAgent != null)
+        {
+            navAgent.enabled = false;
+        }
+        
+        // Disable EnemyController (if it exists)
+        var enemyController = GetComponent<EnemyAssets.EnemyController>();
+        if (enemyController != null)
+        {
+            enemyController.enabled = false;
+        }
+        
+        // Rigidbody'yi kinematik yap (varsa)
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+        
         // Play death effect
         if (deathEffect != null)
         {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+            // Destroy the death effect after a delay (e.g., 3 seconds)
+            Destroy(effect, 3f);
         }
-        
         
         // Play death sound
         if (deathSound != null)
@@ -102,31 +126,9 @@ public class EnemyHealth : MonoBehaviour
             AudioSource.PlayClipAtPoint(deathSound, transform.position, audioVolume);
         }
 
-        // Play death animation if animator exists
-        if (_animator != null)
-        {
-            _animator.SetTrigger("Death");
-            
-            // Get animation length to delay destruction
-            AnimationClip[] clips = _animator.runtimeAnimatorController.animationClips;
-            float destroyDelay = 0f;
-            
-            foreach (AnimationClip clip in clips)
-            {
-                if (clip.name.Contains("death") || clip.name.Contains("Death"))
-                {
-                    destroyDelay = clip.length;
-                    break;
-                }
-            }
-            
-            // Destroy enemy after death animation
-            Destroy(gameObject, destroyDelay > 0 ? destroyDelay : 2f);
-        }
-        else
-        {
-            // No animator, destroy immediately
-            Destroy(gameObject);
-        }
+        // Immediately destroy the enemy object
+        Destroy(gameObject);
+        
+        // No death animation or waiting needed - directly destroy
     }
 }
