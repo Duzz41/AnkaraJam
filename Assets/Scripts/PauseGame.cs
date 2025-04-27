@@ -29,7 +29,7 @@ public class PauseGame : MonoBehaviour
         isPaused = true;
 
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
         // Pause menüsünü aç
         //pauseMenu.SetActive(true);
         pauseMenuAnimator.SetTrigger("Open"); // Açılma animasyonunu başlat

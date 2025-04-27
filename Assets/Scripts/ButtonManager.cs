@@ -6,12 +6,17 @@ public class ButtonManager : MonoBehaviour
     public GameObject pauseMenu; // Pause menüsünü tutan GameObject
     public Animator pauseMenuAnimator; // Pause menüsünün Animator bileşeni
     public Animator bradasAnimator;
+    
 
     // Bu metot, belirtilen sahneye geçiş yapar
     public void LoadScene(string sceneToLoad)
     {
         SceneManager.LoadScene(sceneToLoad);
-
+        if(sceneToLoad == "MainMenu")
+        {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+        }
     }
     public void FindSource()
     {
@@ -20,7 +25,8 @@ public class ButtonManager : MonoBehaviour
     public void Options(string eventName)
     {
         pauseMenuAnimator.SetTrigger(eventName); // Kapatma animasyonunu başlat
-        bradasAnimator.SetTrigger(eventName);
+        if (bradasAnimator != null)
+            bradasAnimator.SetTrigger(eventName);
     }
 
     // Bu metot, oyunu kapatır

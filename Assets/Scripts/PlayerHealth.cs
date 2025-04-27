@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // For UI elements
-using UnityEngine.Events; // For events
+using UnityEngine.Events;
+using UnityEngine.SceneManagement; // For events
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Events")]
     [Tooltip("Event triggered when player takes damage")]
     public UnityEvent onDamage;
-    
+
     [Tooltip("Event triggered when player dies")]
     public UnityEvent onDeath;
     // Private variables
@@ -33,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Set initial health
         currentHealth = maxHealth;
-        
+
         // Set up UI if available
         if (healthSlider != null)
         {
@@ -41,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
             healthSlider.value = currentHealth;
         }
     }
-    
+
 
     public void TakeDamage(int damage)
     {
@@ -51,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
 
         // Apply damage
         currentHealth -= damage;
-        
+
         // Trigger damage event
         onDamage?.Invoke();
 
@@ -75,12 +76,12 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator InvincibilityTimer()
     {
         _isInvincible = true;
-        
+
         // Optional: visual feedback for invincibility
         // e.g., make the player model flash
-        
+
         yield return new WaitForSeconds(invincibilityTime);
-        
+
         _isInvincible = false;
     }
 
@@ -88,13 +89,13 @@ public class PlayerHealth : MonoBehaviour
     {
         // Set health to 0 to be safe
         currentHealth = 0;
-        
+
         // Trigger death event
         onDeath?.Invoke();
-        
+
         // Implement death behavior
         Debug.Log("Player died!");
-        
+        SceneManager.LoadScene("MainMenu");
         // You can add more death behavior here:
         // - Play death animation
         // - Disable player controls
@@ -106,7 +107,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Apply healing
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        
+
         // Update UI
         if (healthSlider != null)
         {

@@ -283,7 +283,7 @@ namespace EnemyAssets
             if (swordModel != null && swordParent != null)
             {
                 // Instantiate the sword and parent it
-                GameObject sword = Instantiate(swordModel, swordParent);
+                GameObject sword = Instantiate(swordModel,swordParent.transform);
                 
                 // Set local position and rotation
                 sword.transform.localPosition = swordLocalPosition;
