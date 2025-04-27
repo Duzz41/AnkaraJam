@@ -28,7 +28,7 @@ public class RangedWeapons : MonoBehaviour
             {
                 rb.linearVelocity = direction * projectileSpeed; // Yön ve hız ile mermiyi hareket ettir
             }
-
+        
             Debug.Log($"Mermi {hit.collider.name} ile çarpıştı!"); // Çarpma mesajı
         }
         else

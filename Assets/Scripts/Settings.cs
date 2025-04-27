@@ -9,8 +9,8 @@ public class Settings : MonoBehaviour
 
     void Start()
     {
-        musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>();
-        sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>();
+        //musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>();
+        //sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>();
         // Slider değerlerini ayarla
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
