@@ -64,43 +64,47 @@ namespace DotGalacticos.Guns
         {
             Destroy(ModelPrefab);
 
-            modelAudioSource = null;
+            // modelAudioSource = null;
             weaponAnimator = null;
         }
         public void Attack()
         {
-            if (Time.time >= lastAttackTime + AttackCooldown)
+            if (ModelPrefab != null)
             {
-                
-                isAttacking = true;
-                AudioClip AttackSound = AttackSounds[Random.Range(0, AttackSounds.Length)];
-                modelAudioSource.PlayOneShot(AttackSound);
-
-                // Melee attack logic
-                if (weaponAnimator != null)
+                if (Time.time >= lastAttackTime + AttackCooldown)
                 {
-                    weaponAnimator.SetTrigger("Attack");
+
+                    isAttacking = true;
+
+
+                    // Melee attack logic
+                    if (weaponAnimator != null)
+                    {
+                        weaponAnimator.SetTrigger("Attack");
+                        AudioClip AttackSound = AttackSounds[Random.Range(0, AttackSounds.Length)];
+                        modelAudioSource.PlayOneShot(AttackSound);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Weapon animator is not assigned.");
+                    }
+
+                    if (usageType == GunUseType.Melee)
+                    {
+                        lastAttackTime = Time.time; // Saldırı zamanını güncelle
+                        ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
+                        ActiveMonoBehaviour.StartCoroutine(DealDamage());
+                    }
+                    else
+                    {
+                        lastAttackTime = Time.time;
+                        ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning("Weapon animator is not assigned.");
+                    Debug.Log($"{name} sadece {AttackCooldown} saniye aralıkla saldırabilir.");
                 }
-
-                if (usageType == GunUseType.Melee)
-                {
-                    lastAttackTime = Time.time; // Saldırı zamanını güncelle
-                    ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
-                    ActiveMonoBehaviour.StartCoroutine(DealDamage());
-                }
-                else
-                {
-                    lastAttackTime = Time.time;
-                    ActiveMonoBehaviour.StartCoroutine(ResetAttackState());
-                }
-            }
-            else
-            {
-                Debug.Log($"{name} sadece {AttackCooldown} saniye aralıkla saldırabilir.");
             }
         }
 
