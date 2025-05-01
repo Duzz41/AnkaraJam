@@ -2056,11 +2056,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8762286024517199035, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_AmplitudeGain
-      value: -0.9110017
+      value: 0.06786918
       objectReference: {fileID: 0}
     - target: {fileID: 8762286024517199035, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_FrequencyGain
-      value: 0.4555009
+      value: 0.1357384
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4361,7 +4361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1492671166
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5480,7 +5480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8581301246921457491, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: gunType
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9046013182678923328, guid: 2cf42586aa451da4d88072b06db6f115, type: 3}
       propertyPath: m_Layer

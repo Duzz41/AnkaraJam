@@ -26,7 +26,6 @@ MonoBehaviour:
   SpawnRotation: {x: -60, y: 0, z: -15}
   AttackSounds:
   - {fileID: 8300000, guid: ccd38111fe9ee2644b8aa6c5aed7ea27, type: 3}
-  - {fileID: 8300000, guid: cd284fce447d28440a3e9a9021622c11, type: 3}
   HitSounds:
   - {fileID: 8300000, guid: 4fb20fbd2f6fee24dadc91d601a9ba9e, type: 3}
   - {fileID: 8300000, guid: 2cddd98f00d8e22429334ccdd0660eee, type: 3}
